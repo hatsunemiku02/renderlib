@@ -132,9 +132,12 @@
     <ClCompile Include="..\..\src\entity\entity.cpp" />
     <ClCompile Include="..\..\src\renderlib\drawcall.cpp" />
     <ClCompile Include="..\..\src\renderlib\pass.cpp" />
+    <ClCompile Include="..\..\src\renderlib\renderapi.cpp" />
     <ClCompile Include="..\..\src\renderlib\renderobj.cpp" />
     <ClCompile Include="..\..\src\renderlib\rendertarget.cpp" />
     <ClCompile Include="..\..\src\renderlib\shader.cpp" />
+    <ClCompile Include="..\..\src\renderlib\shaderparam.cpp" />
+    <ClCompile Include="..\..\src\renderlib\sortid.cpp" />
     <ClCompile Include="..\..\src\renderlib\texture.cpp" />
     <ClCompile Include="..\..\src\renderlib\vertexbuffer.cpp" />
     <ClCompile Include="..\..\src\resourcemgr\material.cpp" />
@@ -149,9 +152,12 @@
     <ClInclude Include="..\..\src\entity\entity.h" />
     <ClInclude Include="..\..\src\renderlib\drawcall.h" />
     <ClInclude Include="..\..\src\renderlib\pass.h" />
+    <ClInclude Include="..\..\src\renderlib\renderapi.h" />
     <ClInclude Include="..\..\src\renderlib\renderobj.h" />
     <ClInclude Include="..\..\src\renderlib\rendertarget.h" />
     <ClInclude Include="..\..\src\renderlib\shader.h" />
+    <ClInclude Include="..\..\src\renderlib\shaderparam.h" />
+    <ClInclude Include="..\..\src\renderlib\sortid.h" />
     <ClInclude Include="..\..\src\renderlib\texture.h" />
     <ClInclude Include="..\..\src\renderlib\vertexbuffer.h" />
     <ClInclude Include="..\..\src\resourcemgr\material.h" />

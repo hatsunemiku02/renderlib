@@ -72,6 +72,15 @@
     <ClCompile Include="..\..\src\renderlib\drawcall.cpp">
       <Filter>src\renderlib</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\renderlib\sortid.cpp">
+      <Filter>src\renderlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlib\shaderparam.cpp">
+      <Filter>src\renderlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlib\renderapi.cpp">
+      <Filter>src\renderlib</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\resourcemgr\material.h">
@@ -111,6 +120,15 @@
       <Filter>src\renderlib</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\renderlib\vertexbuffer.h">
+      <Filter>src\renderlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlib\sortid.h">
+      <Filter>src\renderlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlib\shaderparam.h">
+      <Filter>src\renderlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlib\renderapi.h">
       <Filter>src\renderlib</Filter>
     </ClInclude>
   </ItemGroup>

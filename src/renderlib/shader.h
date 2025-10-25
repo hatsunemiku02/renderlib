@@ -1,8 +1,9 @@
 #pragma once
 #include <glad/glad.h>
 #include <string>
+#include "sortid.h"
 
-class Shader
+class Shader:public SortID
 {
 public:
 	Shader() {};
@@ -12,6 +13,10 @@ public:
 
 	void BuildShader(const std::string& vs,const std::string& fs);
 
+	GLuint GetGLShader()
+	{
+		return m_Program;
+	}
 private:
 	GLuint m_Program;
 
