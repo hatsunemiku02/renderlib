@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{ed5917d9-69ef-4069-b0a4-2747a6aa45e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\entity">
+      <UniqueIdentifier>{dc0470b5-2d10-455f-a985-8d83acb2aa2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\resourcemgr">
+      <UniqueIdentifier>{481c491f-9d7a-49d0-8634-564832e92e63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\renderlib">
+      <UniqueIdentifier>{3a76b6d0-cac5-4fa6-9c29-e10922d3592a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="app.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third\glad\src\glad.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\resourcemgr\material.cpp">
+      <Filter>src\resourcemgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\resourcemgr\mesh.cpp">
+      <Filter>src\resourcemgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\resourcemgr\resmgr.cpp">
+      <Filter>src\resourcemgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\resourcemgr\submesh.cpp">
+      <Filter>src\resourcemgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\resourcemgr\texture.cpp">
+      <Filter>src\resourcemgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\entity\entity.cpp">
+      <Filter>src\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlib\rendertarget.cpp">
+      <Filter>src\renderlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlib\shader.cpp">
+      <Filter>src\renderlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlib\texture.cpp">
+      <Filter>src\renderlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlib\vertexbuffer.cpp">
+      <Filter>src\renderlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlib\pass.cpp">
+      <Filter>src\renderlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlib\renderobj.cpp">
+      <Filter>src\renderlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlib\drawcall.cpp">
+      <Filter>src\renderlib</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\resourcemgr\material.h">
+      <Filter>src\resourcemgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\resourcemgr\mesh.h">
+      <Filter>src\resourcemgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\resourcemgr\resmgr.h">
+      <Filter>src\resourcemgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\resourcemgr\submesh.h">
+      <Filter>src\resourcemgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\resourcemgr\texture.h">
+      <Filter>src\resourcemgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlib\pass.h">
+      <Filter>src\renderlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlib\renderobj.h">
+      <Filter>src\renderlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlib\drawcall.h">
+      <Filter>src\renderlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\entity\entity.h">
+      <Filter>src\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlib\rendertarget.h">
+      <Filter>src\renderlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlib\shader.h">
+      <Filter>src\renderlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlib\texture.h">
+      <Filter>src\renderlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlib\vertexbuffer.h">
+      <Filter>src\renderlib</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
