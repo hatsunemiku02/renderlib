@@ -130,6 +130,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\entity\entity.cpp" />
+    <ClCompile Include="..\..\src\renderlib\computeshader.cpp" />
     <ClCompile Include="..\..\src\renderlib\drawcall.cpp" />
     <ClCompile Include="..\..\src\renderlib\pass.cpp" />
     <ClCompile Include="..\..\src\renderlib\renderapi.cpp" />
@@ -150,6 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\entity\entity.h" />
+    <ClInclude Include="..\..\src\renderlib\computeshader.h" />
     <ClInclude Include="..\..\src\renderlib\drawcall.h" />
     <ClInclude Include="..\..\src\renderlib\pass.h" />
     <ClInclude Include="..\..\src\renderlib\renderapi.h" />

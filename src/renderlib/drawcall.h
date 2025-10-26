@@ -33,6 +33,11 @@ public:
 		m_bSameParam = same;
 	}
 
+	void SetSameMesh(bool same)
+	{
+		m_bSameMesh = same;
+	}
+
 	void SetSameSubMesh(bool same)
 	{
 		m_bSameSubMesh = same;
@@ -48,6 +53,11 @@ public:
 		return m_bSameParam;
 	}
 
+	bool GetSameMesh()
+	{
+		return m_bSameMesh;
+	}
+
 	bool GetSameSubMesh()
 	{
 		return m_bSameSubMesh;
@@ -57,5 +67,6 @@ private:
 	std::vector<std::shared_ptr<RenderObj>> m_RenderObjVector;
 	bool m_bSameShader;
 	bool m_bSameParam;
+	bool m_bSameMesh;
 	bool m_bSameSubMesh;
 };

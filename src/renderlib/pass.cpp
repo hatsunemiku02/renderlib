@@ -70,7 +70,7 @@ void Pass::SortRenderObjVec2DrawCall()
 			lastDrawCall = m_pDrawCallVec[m_pDrawCallVec.size() - 1];
 			lastDrawCall->AddRenderObj(renderObjPtr);
 			lastDrawCall->SetSameShader(sameShader);
-			lastDrawCall->SetSameSubMesh(sameSubMesh);
+			lastDrawCall->SetSameMesh(sameSubMesh);
 			lastDrawCall->SetSameParam(sameParam);
 		}
 	}
@@ -89,7 +89,7 @@ void Pass::ApplyOpenglAPI()
 		{
 			renderApi.SetParam(m_pDrawCallVec[i]->GetParam());
 		}
-		if (!m_pDrawCallVec[i]->GetSameSubMesh())
+		if (!m_pDrawCallVec[i]->GetSameMesh())
 		{
 			renderApi.SetSubMesh(m_pDrawCallVec[i]->GetSubMesh());
 		}
