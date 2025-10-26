@@ -20,6 +20,7 @@ public:
 
 	void SortRenderObjVec2DrawCall();
 
+	void ApplyOpenglAPI();
 private:
 
 	std::vector<std::shared_ptr<RenderObj>> m_pRenderObjVector;

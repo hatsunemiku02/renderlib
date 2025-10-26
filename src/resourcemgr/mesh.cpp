@@ -1,6 +1,6 @@
 #include "mesh.h"
 
-
+/*
 float vertices[] = {
     -1.0f, -1.0f, 1.0f, // вСоб╫г
      1.0f, -1.0f, 1.0f,  // сроб╫г
@@ -40,15 +40,15 @@ int idexs[] = {
     1,5,2,
     1,2,6,
 
-};
+};*/
 
 void mesh::BuildDefaultBox()
 {
-    m_pVertexBuffer = std::make_shared<VertexBuffer>();
-
-    std::vector<void*> buffers = { vertices ,uvs};
-    std::vector<unsigned int> bufferssize = { 8 * sizeof(float) ,8 * sizeof(float) };
-    std::vector<unsigned int> buffersstride = { 3*sizeof(float) ,2 * sizeof(float) };
-
-    m_pVertexBuffer->SetData(buffers, bufferssize, buffersstride, idexs, 12);
+    //m_pVertexBuffer = std::make_shared<VertexBuffer>();
+    //
+    //std::vector<void*> buffers = { vertices ,uvs};
+    //std::vector<unsigned int> bufferssize = { 8 * sizeof(float) ,8 * sizeof(float) };
+    //std::vector<unsigned int> buffersstride = { 3*sizeof(float) ,2 * sizeof(float) };
+    //
+    //m_pVertexBuffer->SetData(buffers, bufferssize, buffersstride, idexs, 12);
 }

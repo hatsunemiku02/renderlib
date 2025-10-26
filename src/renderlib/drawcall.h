@@ -19,6 +19,8 @@ public:
 
 	std::shared_ptr<SubMesh> GetSubMesh();
 
+	unsigned int GetInstanceCount();
+
 	void AddRenderObj(const std::shared_ptr<RenderObj>& pRenderObj);
 
 	void SetSameShader(bool same)
@@ -36,6 +38,20 @@ public:
 		m_bSameSubMesh = same;
 	}
 
+	bool GetSameShader()
+	{
+		return m_bSameShader;
+	}
+
+	bool GetSameParam()
+	{
+		return m_bSameParam;
+	}
+
+	bool GetSameSubMesh()
+	{
+		return m_bSameSubMesh;
+	}
 
 private:
 	std::vector<std::shared_ptr<RenderObj>> m_RenderObjVector;

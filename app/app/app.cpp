@@ -5,6 +5,11 @@
 
 
 #include "renderlib/vertexbuffer.h"
+#include "renderlib/shader.h"
+#include "renderlib/pass.h"
+#include "renderlib/shaderparam.h"
+#include "renderlib/renderobj.h"
+#include "resourcemgr/submesh.h"
 
 
 // 窗口尺寸常量
@@ -12,7 +17,7 @@ const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
 
-VertexBuffer vbo;
+
 
 
 // 函数声明
@@ -64,15 +69,15 @@ int main()
     glfwInit();
 
     // 配置GLFW
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);  // 主版本号
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);  // 次版本号
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);  // 主版本号
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);  // 次版本号
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 核心模式
 
     // 如果是Mac OS X系统，需要添加下面这行
 #ifdef __APPLE__
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
-
+  
     // 创建窗口对象
     GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "OpenGL Window", NULL, NULL);
     if (window == NULL)
@@ -94,6 +99,9 @@ int main()
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
     }
+
+    std::cout << "OpenGL Version: " << glGetString(GL_VERSION) << std::endl;
+    /*
     GLenum error;
     GLuint vao;
     GLuint vbo;
@@ -293,13 +301,32 @@ int main()
     error = glGetError();
 
 
-    error = glGetError();
+    error = glGetError();*/
+
+    //std::shared_ptr<VertexBuffer> vbo = std::make_shared<VertexBuffer>();
+    std::shared_ptr<SubMesh> submesh = std::make_shared<SubMesh>();
+    submesh->BuildDefaultBox();
+    std::shared_ptr<Shader> shader = std::make_shared<Shader>();
+    std::shared_ptr<Param> param = std::make_shared<Param>();
+    shader->BuildDefaultShader();
+
+    std::shared_ptr<RenderObj> renderobj = std::make_shared<RenderObj>(submesh,shader,param);
+    std::shared_ptr<Pass> pass = std::make_shared<Pass>();
+
+    pass->AddRenderObj(renderobj);
+    pass->SortRenderObjVec2DrawCall();
+
     // 渲染循环
     while (!glfwWindowShouldClose(window))
     {
         // 处理输入
         processInput(window);
 
+
+        glClearColor(0.3f, 0.3f, 0.3f, 1.0f);  // 设置清屏颜色
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        pass->ApplyOpenglAPI();
+        /*
         glBindFramebuffer(GL_FRAMEBUFFER, fbo);
         error = glGetError();
         glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
@@ -339,7 +366,7 @@ int main()
         glUniform1i(glGetUniformLocation(shaderProgramFB, "screentex"), 0);
         error = glGetError();
         glDrawArrays(GL_TRIANGLES, 0, 6);
-        error = glGetError();
+        error = glGetError();*/
         // 交换颜色缓冲
         glfwSwapBuffers(window);
 

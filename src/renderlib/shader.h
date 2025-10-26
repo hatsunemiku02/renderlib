@@ -6,7 +6,7 @@
 class Shader:public SortID
 {
 public:
-	Shader() {};
+	Shader():m_Program(0){};
 	~Shader() {};
 
 	void BuildDefaultShader();

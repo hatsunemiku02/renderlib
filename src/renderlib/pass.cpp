@@ -4,6 +4,7 @@
 #include "shaderparam.h"
 #include "resourcemgr/submesh.h"
 #include "drawcall.h"
+#include "renderlib/renderapi.h"
 #include<algorithm>
 Pass::Pass()
 {
@@ -73,6 +74,29 @@ void Pass::SortRenderObjVec2DrawCall()
 			lastDrawCall->SetSameParam(sameParam);
 		}
 	}
-	
+}
 
+void Pass::ApplyOpenglAPI()
+{
+	RenderApi& renderApi = RenderApi::GetInstance();
+	for (int i=0;i< m_pDrawCallVec.size();i++)
+	{
+		if (!m_pDrawCallVec[i]->GetSameShader())
+		{
+			renderApi.SetShader(m_pDrawCallVec[i]->GetShader());
+		}
+		if (!m_pDrawCallVec[i]->GetSameParam())
+		{
+			renderApi.SetParam(m_pDrawCallVec[i]->GetParam());
+		}
+		if (!m_pDrawCallVec[i]->GetSameSubMesh())
+		{
+			renderApi.SetSubMesh(m_pDrawCallVec[i]->GetSubMesh());
+		}
+
+		for (int j=0;j< m_pDrawCallVec[i]->GetInstanceCount();j++)
+		{
+			renderApi.Draw();
+		}
+	}
 }

@@ -6,9 +6,9 @@ public:
 	SortID();
 	~SortID();
 
-	long GetSortID()
+	long long GetSortID()
 	{
-		return (long)this;
+		return (long long)this;
 	}
 
 private:

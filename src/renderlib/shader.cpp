@@ -4,17 +4,31 @@
 
 
 
+//std::string DEFAULT_VS = R"(
+//    #version 330 core
+//    layout (location = 0) in vec3 aPos;
+//    layout (location = 1) in vec2 uv;
+//    
+//    uniform mat4 u_WorldMatrix;
+//    uniform mat4 u_ProjMatrix;
+//    uniform mat4 u_ViewMatrix;
+//
+//    out vec2 texcord;
+//    void main() {
+//        texcord = uv;
+//        gl_Position =u_ProjMatrix*u_ViewMatrix*u_WorldMatrix*vec4(aPos.x,aPos.y,aPos.z,1.0);
+//    }
+//)";
+
 std::string DEFAULT_VS = R"(
     #version 330 core
     layout (location = 0) in vec3 aPos;
     layout (location = 1) in vec2 uv;
+
     out vec2 texcord;
-    uniform mat4 u_WorldMatrix;
-    uniform mat4 u_ProjMatrix;
-    uniform mat4 u_ViewMatrix;
     void main() {
         texcord = uv;
-        gl_Position =u_ProjMatrix*u_ViewMatrix*u_WorldMatrix*vec4(aPos.x,aPos.y,aPos.z,1.0);
+        gl_Position = vec4(aPos.x,aPos.y,aPos.z,1.0);
     }
 )";
 
@@ -24,7 +38,7 @@ std::string DEFAULT_PS = R"(
     out vec4 FragColor;
 
     void main() {
-        FragColor = vec4(0.4,0.4,0.7,1.0);
+        FragColor = vec4(1.0,0.4,0.7,1.0);
     }
 )";
 
@@ -85,18 +99,18 @@ void Shader::BuildShader(const std::string& vs_source, const std::string& fs_sou
     }
 
     // 创建着色器程序并链接
-    unsigned int shaderProgramFB = glCreateProgram();
-    glAttachShader(shaderProgramFB, vertexShaderFB);
-    glAttachShader(shaderProgramFB, fragmentShaderFB);
-    glLinkProgram(shaderProgramFB);
+    m_Program = glCreateProgram();
+    glAttachShader(m_Program, vertexShaderFB);
+    glAttachShader(m_Program, fragmentShaderFB);
+    glLinkProgram(m_Program);
 
-    glGetProgramiv(shaderProgramFB, GL_LINK_STATUS, &success);
+    glGetProgramiv(m_Program, GL_LINK_STATUS, &success);
     if (!success) {
 
         GLint maxLength = 0;
-        glGetProgramiv(shaderProgramFB, GL_INFO_LOG_LENGTH, &maxLength); // [8](@ref)
+        glGetProgramiv(m_Program, GL_INFO_LOG_LENGTH, &maxLength); // [8](@ref)
         std::vector<GLchar> errorLog(maxLength);
-        glGetProgramInfoLog(shaderProgramFB, maxLength, NULL, errorLog.data()); // [4,8](@ref)
+        glGetProgramInfoLog(m_Program, maxLength, NULL, errorLog.data()); // [4,8](@ref)
         std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << errorLog.data() << std::endl;
     }
 

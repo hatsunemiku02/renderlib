@@ -8,12 +8,24 @@ class SubMesh:public SortID
 {
 public:
 	SubMesh();
-	~SubMesh();
 	SubMesh(const std::shared_ptr<VertexBuffer>& pVertexBuffer);
+	~SubMesh();
+
+	void BuildDefaultBox();
 
 	std::shared_ptr<VertexBuffer>& GetVertexBuffer()
 	{
 		return m_pVertexBuffer;
+	}
+
+	void SetStart(unsigned int start)
+	{
+		m_Start = start;
+	}
+
+	void SetLength(unsigned int length)
+	{
+		m_Length = length;
 	}
 
 	unsigned int GetStart()

@@ -34,3 +34,8 @@ std::shared_ptr<SubMesh> DrawCall::GetSubMesh()
 {
 	return m_RenderObjVector[0]->GetSubMesh();
 }
+
+unsigned int DrawCall::GetInstanceCount()
+{
+	return m_RenderObjVector.size();
+}

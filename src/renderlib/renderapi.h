@@ -12,6 +12,7 @@ class RenderApi
 public:
 	static RenderApi& GetInstance()
 	{
+		static RenderApi s_Instance;
 		return s_Instance;
 	}
 
@@ -20,12 +21,17 @@ public:
 
 	void SetParam(const std::shared_ptr<Param>& pParam);
 	void SetShader(const std::shared_ptr<Shader>& pParam);
-	void DrawSubMesh(const std::shared_ptr<SubMesh>& pParam);
+	void SetSubMesh(const std::shared_ptr<SubMesh>& pParam);
 	void Draw();
 
 private:
 	unsigned int drawelementstart;
 	unsigned int drawelementlength;
-	static RenderApi s_Instance;
-	RenderApi(){}
+	RenderApi()
+		:drawelementstart(0)
+		, drawelementlength(0)
+		, error(0)
+	{}
+
+	GLuint error;
 };
