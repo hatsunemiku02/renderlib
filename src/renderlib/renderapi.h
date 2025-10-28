@@ -21,6 +21,7 @@ public:
 
 	void SetParam(const std::shared_ptr<Param>& pParam);
 	void SetShader(const std::shared_ptr<Shader>& pParam);
+	void SetMesh(const std::shared_ptr<SubMesh>& pParam);
 	void SetSubMesh(const std::shared_ptr<SubMesh>& pParam);
 	void Draw();
 

@@ -5,6 +5,7 @@ DrawCall::DrawCall()
 	:m_bSameShader(false)
 	,m_bSameParam(false)
 	,m_bSameSubMesh(false)
+	,m_bSameMesh(false)
 	,m_RenderObjVector()
 {
 }

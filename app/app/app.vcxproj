@@ -139,7 +139,9 @@
     <ClCompile Include="..\..\src\renderlib\shader.cpp" />
     <ClCompile Include="..\..\src\renderlib\shaderparam.cpp" />
     <ClCompile Include="..\..\src\renderlib\sortid.cpp" />
+    <ClCompile Include="..\..\src\renderlib\ssbo.cpp" />
     <ClCompile Include="..\..\src\renderlib\texture.cpp" />
+    <ClCompile Include="..\..\src\renderlib\uniformbuffer.cpp" />
     <ClCompile Include="..\..\src\renderlib\vertexbuffer.cpp" />
     <ClCompile Include="..\..\src\resourcemgr\material.cpp" />
     <ClCompile Include="..\..\src\resourcemgr\mesh.cpp" />
@@ -160,7 +162,9 @@
     <ClInclude Include="..\..\src\renderlib\shader.h" />
     <ClInclude Include="..\..\src\renderlib\shaderparam.h" />
     <ClInclude Include="..\..\src\renderlib\sortid.h" />
+    <ClInclude Include="..\..\src\renderlib\ssbo.h" />
     <ClInclude Include="..\..\src\renderlib\texture.h" />
+    <ClInclude Include="..\..\src\renderlib\uniformbuffer.h" />
     <ClInclude Include="..\..\src\renderlib\vertexbuffer.h" />
     <ClInclude Include="..\..\src\resourcemgr\material.h" />
     <ClInclude Include="..\..\src\resourcemgr\mesh.h" />

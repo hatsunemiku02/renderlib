@@ -18,5 +18,5 @@ private:
 
 
 
-	uint 
+	//uint 
 };

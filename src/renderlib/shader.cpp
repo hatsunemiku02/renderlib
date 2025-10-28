@@ -1,6 +1,7 @@
 #include "shader.h"
 #include <vector>
 #include <iostream>
+#include "computeshader.h"
 
 
 
@@ -38,7 +39,7 @@ std::string DEFAULT_PS = R"(
     out vec4 FragColor;
 
     void main() {
-        FragColor = vec4(1.0,0.4,0.7,1.0);
+        FragColor = vec4(1.0,1.0,1.0,1.0);
     }
 )";
 
@@ -46,6 +47,7 @@ void Shader::BuildDefaultShader()
 {
     BuildShader(DEFAULT_VS, DEFAULT_PS);
 }
+
 
 void Shader::BuildShader(const std::string& vs_source, const std::string& fs_source)
 {

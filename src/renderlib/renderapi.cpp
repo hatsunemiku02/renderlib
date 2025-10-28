@@ -17,10 +17,14 @@ void RenderApi::SetShader(const std::shared_ptr<Shader>& pShader)
 	error = glGetError();
 }
 
-void RenderApi::SetSubMesh(const std::shared_ptr<SubMesh>& pSubMesh)
+void RenderApi::SetMesh(const std::shared_ptr<SubMesh>& pSubMesh)
 {
 	glBindVertexArray(pSubMesh->GetVertexBuffer()->GetGLVertexBuffer());
 	error = glGetError();
+}
+
+void RenderApi::SetSubMesh(const std::shared_ptr<SubMesh>& pSubMesh)
+{
 	drawelementstart = pSubMesh->GetStart();
 	drawelementlength = pSubMesh->GetLength();
 }

@@ -84,6 +84,12 @@
     <ClCompile Include="..\..\src\renderlib\computeshader.cpp">
       <Filter>src\renderlib</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\renderlib\ssbo.cpp">
+      <Filter>src\renderlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlib\uniformbuffer.cpp">
+      <Filter>src\renderlib</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\resourcemgr\material.h">
@@ -135,6 +141,12 @@
       <Filter>src\renderlib</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\renderlib\computeshader.h">
+      <Filter>src\renderlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlib\ssbo.h">
+      <Filter>src\renderlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlib\uniformbuffer.h">
       <Filter>src\renderlib</Filter>
     </ClInclude>
   </ItemGroup>

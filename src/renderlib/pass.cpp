@@ -55,6 +55,7 @@ void Pass::SortRenderObjVec2DrawCall()
 		std::shared_ptr<RenderObj> renderObjPtr = m_pRenderObjVector[i];
 
 		bool sameShader = renderObjPtr->GetShader() == lastDrawCall->GetShader();
+		bool sameMesh = renderObjPtr->GetSubMesh()->GetVertexBuffer() == lastDrawCall->GetSubMesh()->GetVertexBuffer();
 		bool sameSubMesh = renderObjPtr->GetSubMesh() == lastDrawCall->GetSubMesh();
 		bool sameParam = renderObjPtr->GetParam() == lastDrawCall->GetParam();
 		
@@ -70,7 +71,8 @@ void Pass::SortRenderObjVec2DrawCall()
 			lastDrawCall = m_pDrawCallVec[m_pDrawCallVec.size() - 1];
 			lastDrawCall->AddRenderObj(renderObjPtr);
 			lastDrawCall->SetSameShader(sameShader);
-			lastDrawCall->SetSameMesh(sameSubMesh);
+			lastDrawCall->SetSameMesh(sameMesh);
+			lastDrawCall->SetSameSubMesh(sameSubMesh);
 			lastDrawCall->SetSameParam(sameParam);
 		}
 	}
@@ -89,7 +91,13 @@ void Pass::ApplyOpenglAPI()
 		{
 			renderApi.SetParam(m_pDrawCallVec[i]->GetParam());
 		}
+
 		if (!m_pDrawCallVec[i]->GetSameMesh())
+		{
+			renderApi.SetMesh(m_pDrawCallVec[i]->GetSubMesh());
+		}
+
+		if (!m_pDrawCallVec[i]->GetSameSubMesh())
 		{
 			renderApi.SetSubMesh(m_pDrawCallVec[i]->GetSubMesh());
 		}
