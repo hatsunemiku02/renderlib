@@ -105,13 +105,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\third\glad\include;..\..\third\glfw-3.4.bin.WIN64\include;..\..\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\third\glad\include;..\..\third\glfw-3.4.bin.WIN64\include;..\..\src;C:\VulkanSDK\1.4.328.1\Include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\third\glfw-3.4.bin.WIN64\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\third\glfw-3.4.bin.WIN64\lib-vc2022;C:\VulkanSDK\1.4.328.1\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -130,6 +131,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\entity\entity.cpp" />
+    <ClCompile Include="..\..\src\renderlibvulkan\CommandBufferVulkan.cpp" />
+    <ClCompile Include="..\..\src\renderlibvulkan\CommandPoolVulkan.cpp" />
+    <ClCompile Include="..\..\src\renderlibvulkan\DeviceVulkan.cpp" />
+    <ClCompile Include="..\..\src\renderlibvulkan\DynamicRHIVulkan.cpp" />
+    <ClCompile Include="..\..\src\renderlibvulkan\FramebufferVulkan.cpp" />
+    <ClCompile Include="..\..\src\renderlibvulkan\PipelineStateVulkan.cpp" />
+    <ClCompile Include="..\..\src\renderlibvulkan\PipelineVulkan.cpp" />
+    <ClCompile Include="..\..\src\renderlibvulkan\QueueVulkan.cpp" />
+    <ClCompile Include="..\..\src\renderlibvulkan\RenderpassVulkan.cpp" />
+    <ClCompile Include="..\..\src\renderlibvulkan\resource\ViewVulkan.cpp" />
+    <ClCompile Include="..\..\src\renderlibvulkan\SwapChainVulkan.cpp" />
     <ClCompile Include="..\..\src\renderlib\computeshader.cpp" />
     <ClCompile Include="..\..\src\renderlib\drawcall.cpp" />
     <ClCompile Include="..\..\src\renderlib\pass.cpp" />
@@ -153,6 +165,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\entity\entity.h" />
+    <ClInclude Include="..\..\src\renderlibvulkan\CommandBufferVulkan.h" />
+    <ClInclude Include="..\..\src\renderlibvulkan\CommandPoolVulkan.h" />
+    <ClInclude Include="..\..\src\renderlibvulkan\DeviceVulkan.h" />
+    <ClInclude Include="..\..\src\renderlibvulkan\DynamicRHIVulkan.h" />
+    <ClInclude Include="..\..\src\renderlibvulkan\FramebufferVulkan.h" />
+    <ClInclude Include="..\..\src\renderlibvulkan\IDynamicRHIVulkan.h" />
+    <ClInclude Include="..\..\src\renderlibvulkan\PipelineStateVulkan.h" />
+    <ClInclude Include="..\..\src\renderlibvulkan\PipelineVulkan.h" />
+    <ClInclude Include="..\..\src\renderlibvulkan\QueueVulkan.h" />
+    <ClInclude Include="..\..\src\renderlibvulkan\RenderpassVulkan.h" />
+    <ClInclude Include="..\..\src\renderlibvulkan\resource\ViewVulkan.h" />
+    <ClInclude Include="..\..\src\renderlibvulkan\SwapChainVulkan.h" />
     <ClInclude Include="..\..\src\renderlib\computeshader.h" />
     <ClInclude Include="..\..\src\renderlib\drawcall.h" />
     <ClInclude Include="..\..\src\renderlib\pass.h" />

@@ -22,8 +22,14 @@
     <Filter Include="src\resourcemgr">
       <UniqueIdentifier>{481c491f-9d7a-49d0-8634-564832e92e63}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\renderlibvulkan">
+      <UniqueIdentifier>{b396ec0f-674f-4103-af88-27efd401a40c}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\renderlib">
-      <UniqueIdentifier>{3a76b6d0-cac5-4fa6-9c29-e10922d3592a}</UniqueIdentifier>
+      <UniqueIdentifier>{9224a717-0472-4878-a01f-83e2fcd01689}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\renderlibvulkan\resoource">
+      <UniqueIdentifier>{04d0839d-bdbf-49bd-bdfd-a0f54e5fd713}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -51,44 +57,77 @@
     <ClCompile Include="..\..\src\entity\entity.cpp">
       <Filter>src\entity</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\renderlibvulkan\DynamicRHIVulkan.cpp">
+      <Filter>src\renderlibvulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlibvulkan\DeviceVulkan.cpp">
+      <Filter>src\renderlibvulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlibvulkan\SwapChainVulkan.cpp">
+      <Filter>src\renderlibvulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlib\computeshader.cpp">
+      <Filter>src\renderlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlib\drawcall.cpp">
+      <Filter>src\renderlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlib\pass.cpp">
+      <Filter>src\renderlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlib\renderapi.cpp">
+      <Filter>src\renderlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlib\renderobj.cpp">
+      <Filter>src\renderlib</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\renderlib\rendertarget.cpp">
       <Filter>src\renderlib</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\renderlib\shader.cpp">
       <Filter>src\renderlib</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\renderlib\texture.cpp">
-      <Filter>src\renderlib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\renderlib\vertexbuffer.cpp">
-      <Filter>src\renderlib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\renderlib\pass.cpp">
-      <Filter>src\renderlib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\renderlib\renderobj.cpp">
-      <Filter>src\renderlib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\renderlib\drawcall.cpp">
+    <ClCompile Include="..\..\src\renderlib\shaderparam.cpp">
       <Filter>src\renderlib</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\renderlib\sortid.cpp">
       <Filter>src\renderlib</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\renderlib\shaderparam.cpp">
-      <Filter>src\renderlib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\renderlib\renderapi.cpp">
-      <Filter>src\renderlib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\renderlib\computeshader.cpp">
-      <Filter>src\renderlib</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\renderlib\ssbo.cpp">
+      <Filter>src\renderlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlib\texture.cpp">
       <Filter>src\renderlib</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\renderlib\uniformbuffer.cpp">
       <Filter>src\renderlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlib\vertexbuffer.cpp">
+      <Filter>src\renderlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlibvulkan\RenderpassVulkan.cpp">
+      <Filter>src\renderlibvulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlibvulkan\FramebufferVulkan.cpp">
+      <Filter>src\renderlibvulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlibvulkan\resource\ViewVulkan.cpp">
+      <Filter>src\renderlibvulkan\resoource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlibvulkan\QueueVulkan.cpp">
+      <Filter>src\renderlibvulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlibvulkan\PipelineStateVulkan.cpp">
+      <Filter>src\renderlibvulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlibvulkan\PipelineVulkan.cpp">
+      <Filter>src\renderlibvulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlibvulkan\CommandBufferVulkan.cpp">
+      <Filter>src\renderlibvulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlibvulkan\CommandPoolVulkan.cpp">
+      <Filter>src\renderlibvulkan</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -107,17 +146,35 @@
     <ClInclude Include="..\..\src\resourcemgr\texture.h">
       <Filter>src\resourcemgr</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\renderlib\pass.h">
-      <Filter>src\renderlib</Filter>
+    <ClInclude Include="..\..\src\entity\entity.h">
+      <Filter>src\entity</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\renderlib\renderobj.h">
+    <ClInclude Include="..\..\src\renderlibvulkan\IDynamicRHIVulkan.h">
+      <Filter>src\renderlibvulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlibvulkan\DynamicRHIVulkan.h">
+      <Filter>src\renderlibvulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlibvulkan\DeviceVulkan.h">
+      <Filter>src\renderlibvulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlibvulkan\SwapChainVulkan.h">
+      <Filter>src\renderlibvulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlib\computeshader.h">
       <Filter>src\renderlib</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\renderlib\drawcall.h">
       <Filter>src\renderlib</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\entity\entity.h">
-      <Filter>src\entity</Filter>
+    <ClInclude Include="..\..\src\renderlib\pass.h">
+      <Filter>src\renderlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlib\renderapi.h">
+      <Filter>src\renderlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlib\renderobj.h">
+      <Filter>src\renderlib</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\renderlib\rendertarget.h">
       <Filter>src\renderlib</Filter>
@@ -125,29 +182,47 @@
     <ClInclude Include="..\..\src\renderlib\shader.h">
       <Filter>src\renderlib</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\renderlib\texture.h">
-      <Filter>src\renderlib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\renderlib\vertexbuffer.h">
+    <ClInclude Include="..\..\src\renderlib\shaderparam.h">
       <Filter>src\renderlib</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\renderlib\sortid.h">
       <Filter>src\renderlib</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\renderlib\shaderparam.h">
-      <Filter>src\renderlib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\renderlib\renderapi.h">
-      <Filter>src\renderlib</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\renderlib\computeshader.h">
-      <Filter>src\renderlib</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\renderlib\ssbo.h">
+      <Filter>src\renderlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlib\texture.h">
       <Filter>src\renderlib</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\renderlib\uniformbuffer.h">
       <Filter>src\renderlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlib\vertexbuffer.h">
+      <Filter>src\renderlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlibvulkan\RenderpassVulkan.h">
+      <Filter>src\renderlibvulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlibvulkan\FramebufferVulkan.h">
+      <Filter>src\renderlibvulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlibvulkan\resource\ViewVulkan.h">
+      <Filter>src\renderlibvulkan\resoource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlibvulkan\QueueVulkan.h">
+      <Filter>src\renderlibvulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlibvulkan\PipelineStateVulkan.h">
+      <Filter>src\renderlibvulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlibvulkan\PipelineVulkan.h">
+      <Filter>src\renderlibvulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlibvulkan\CommandPoolVulkan.h">
+      <Filter>src\renderlibvulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlibvulkan\CommandBufferVulkan.h">
+      <Filter>src\renderlibvulkan</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
