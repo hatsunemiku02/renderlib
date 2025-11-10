@@ -6,6 +6,9 @@
 #include <vector>
 #include <set>
 
+#define VMA_IMPLEMENTATION
+#include "vk_mem_alloc.h"
+
 enum class EVulkanQueueType : uint8_t
 {
     Graphics = 0,
@@ -189,6 +192,12 @@ void DeviceVulkan::CreateDevice()
 	//vkGetDeviceQueue(m_Device, indices.graphicsFamily.value(), 0, &m_GraphicsQueue);
 	//vkGetDeviceQueue(m_Device, indices.presentFamily.value(), 0, &m_PresentQueue);
 
+
+	VmaAllocatorCreateInfo allocatorInfo = {};
+	allocatorInfo.physicalDevice = m_GPU;
+	allocatorInfo.device = m_Device;
+	allocatorInfo.instance = DynamicRHIVulkan::GetInstance().GetVkInstance();
+	vmaCreateAllocator(&allocatorInfo, &m_Allocator);
 }
 
 

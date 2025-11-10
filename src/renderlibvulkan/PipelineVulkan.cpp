@@ -1,6 +1,7 @@
 #include "PipelineVulkan.h"
 #include "DeviceVulkan.h"
 #include "RenderpassVulkan.h"
+#include "resource/VBOVulkan.h"
 #include <stdexcept>
 
 PipelineVulkan::PipelineVulkan()
@@ -10,6 +11,13 @@ PipelineVulkan::PipelineVulkan()
 PipelineVulkan::~PipelineVulkan()
 {
 }
+
+void PipelineVulkan::SetVertexBind(const std::shared_ptr<VertexInputDescription>& bind)
+{
+    m_pVertexBind = bind;
+}
+
+
 
 VkShaderModule PipelineVulkan::createShaderModule(const DeviceVulkan& device, const std::vector<char>& code) {
     VkShaderModuleCreateInfo createInfo{};
@@ -49,10 +57,21 @@ void PipelineVulkan::CreateGraphicPipeline(const DeviceVulkan& deviceVulkan,cons
     //desc format of vertex data: data spacing(binding) and attribute descripiton
     VkPipelineVertexInputStateCreateInfo vertexInputInfo{};
     vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-    vertexInputInfo.vertexBindingDescriptionCount = 0;
-    vertexInputInfo.pVertexBindingDescriptions = nullptr; // Optional
-    vertexInputInfo.vertexAttributeDescriptionCount = 0;
-    vertexInputInfo.pVertexAttributeDescriptions = nullptr; // Optional
+    if (m_pVertexBind)
+    {
+        vertexInputInfo.vertexBindingDescriptionCount = m_pVertexBind->bindings.size();
+        vertexInputInfo.pVertexBindingDescriptions = m_pVertexBind->bindings.data(); // Optional
+        vertexInputInfo.vertexAttributeDescriptionCount = m_pVertexBind->attributes.size();
+        vertexInputInfo.pVertexAttributeDescriptions = m_pVertexBind->attributes.data(); // Optional
+    }
+    else
+    {
+        vertexInputInfo.vertexBindingDescriptionCount = 0;
+        vertexInputInfo.pVertexBindingDescriptions = nullptr; // Optional
+        vertexInputInfo.vertexAttributeDescriptionCount = 0;
+        vertexInputInfo.pVertexAttributeDescriptions = nullptr; // Optional
+    }
+   
 
     //what kind of geometries from vertices (triangles only here)
     //primitiveRestart enables reusing vertices

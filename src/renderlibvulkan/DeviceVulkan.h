@@ -3,6 +3,7 @@
 #include "vulkan/vulkan.h"
 #include <vector>
 
+#include "vk_mem_alloc.h"
 
 template< class T >
 static inline void ZeroVulkanStruct(T& Struct, int32_t VkStructureType)
@@ -62,6 +63,11 @@ public:
 		return m_GPU;
 	}
 
+	VmaAllocator GetAllocator() const
+	{
+		return m_Allocator;
+	}
+
 	//VkQueue GetGraphicQueue()
 	//{
 	//	return m_GraphicsQueue;
@@ -88,4 +94,6 @@ private:
 	std::vector<VkQueueFamilyProperties> m_QueueFamilyProps;
 
 	PhysicalDeviceFeaturesVulkan m_PhysicalDeviceFeatures;
+
+	VmaAllocator m_Allocator;
 };

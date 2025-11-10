@@ -105,13 +105,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\third\glad\include;..\..\third\glfw-3.4.bin.WIN64\include;..\..\src;C:\VulkanSDK\1.4.328.1\Include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\third\glad\include;..\..\third\glfw-3.4.bin.WIN64\include;..\..\third\VulkanSDK\1.4.328.1\Include;..\..\third\VulkanMemoryAllocator\include;..\..\src</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\third\glfw-3.4.bin.WIN64\lib-vc2022;C:\VulkanSDK\1.4.328.1\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\third\glfw-3.4.bin.WIN64\lib-vc2022;..\..\third\VulkanSDK\1.4.328.1\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -140,6 +140,10 @@
     <ClCompile Include="..\..\src\renderlibvulkan\PipelineVulkan.cpp" />
     <ClCompile Include="..\..\src\renderlibvulkan\QueueVulkan.cpp" />
     <ClCompile Include="..\..\src\renderlibvulkan\RenderpassVulkan.cpp" />
+    <ClCompile Include="..\..\src\renderlibvulkan\resource\BufferVulkan.cpp" />
+    <ClCompile Include="..\..\src\renderlibvulkan\resource\IBOVulkan.cpp" />
+    <ClCompile Include="..\..\src\renderlibvulkan\resource\TextureVulkan.cpp" />
+    <ClCompile Include="..\..\src\renderlibvulkan\resource\VBOVulkan.cpp" />
     <ClCompile Include="..\..\src\renderlibvulkan\resource\ViewVulkan.cpp" />
     <ClCompile Include="..\..\src\renderlibvulkan\SwapChainVulkan.cpp" />
     <ClCompile Include="..\..\src\renderlib\computeshader.cpp" />
@@ -175,6 +179,10 @@
     <ClInclude Include="..\..\src\renderlibvulkan\PipelineVulkan.h" />
     <ClInclude Include="..\..\src\renderlibvulkan\QueueVulkan.h" />
     <ClInclude Include="..\..\src\renderlibvulkan\RenderpassVulkan.h" />
+    <ClInclude Include="..\..\src\renderlibvulkan\resource\BufferVulkan.h" />
+    <ClInclude Include="..\..\src\renderlibvulkan\resource\IBOVulkan.h" />
+    <ClInclude Include="..\..\src\renderlibvulkan\resource\TextureVulkan.h" />
+    <ClInclude Include="..\..\src\renderlibvulkan\resource\VBOVulkan.h" />
     <ClInclude Include="..\..\src\renderlibvulkan\resource\ViewVulkan.h" />
     <ClInclude Include="..\..\src\renderlibvulkan\SwapChainVulkan.h" />
     <ClInclude Include="..\..\src\renderlib\computeshader.h" />
