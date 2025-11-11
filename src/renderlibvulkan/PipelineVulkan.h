@@ -7,9 +7,18 @@ class RenderpassVulkan;
 class ShaderVulkan;
 struct VertexInputDescription;
 
+
+
 class PipelineVulkan
 {
 public:
+
+	enum PipelineType
+	{
+		Graphic,
+		Compute
+	};
+
 	PipelineVulkan();
 	~PipelineVulkan();
 
@@ -21,9 +30,14 @@ public:
 
 	VkShaderModule createShaderModule(const DeviceVulkan& device, const std::vector<char>& code);
 
-	VkPipeline GetPipeline()
+	VkPipeline GetPipeline() const
 	{
 		return m_Pipeline;
+	}
+
+	PipelineType GetPipelineType() const
+	{
+		return m_Type;
 	}
 private:
 	DeviceVulkan* Device;
@@ -31,6 +45,7 @@ private:
 	VkPipelineLayout m_PipelineLayout;
 	std::shared_ptr<VertexInputDescription>  m_pVertexBind;
 	std::vector<VkPipelineShaderStageCreateInfo> m_ShaderStages;
+	PipelineType m_Type;
 	//FVulkanLayout* Layout
 };
 

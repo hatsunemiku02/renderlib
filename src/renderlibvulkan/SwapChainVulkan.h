@@ -55,17 +55,17 @@ public:
         return swapChainFramebuffers[imageIndex];
     }
 
-    uint32_t GetImgIdx()
+    uint32_t GetImgIdx() const
     {
         return imageIndex;
     }
 
-    uint32_t* GetImgIdxAddress()
+    uint32_t*  GetImgIdxAddress() 
     {
         return &imageIndex;
     }
 
-    VkExtent2D GetExtent()
+    VkExtent2D GetExtent() const
     {
         return swapChainExtent;
     }

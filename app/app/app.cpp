@@ -183,64 +183,6 @@ private:
     }//13
     //END: initialization
 
-    //this writes cmds we want to exec to cmd buffer
-
-    void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex) {
-       
-
-        VkCommandBufferBeginInfo beginInfo{};
-        beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-        beginInfo.flags = 0; // Optional
-        beginInfo.pInheritanceInfo = nullptr; // Optional
-
-        if (vkBeginCommandBuffer(commandBuffer, &beginInfo) != VK_SUCCESS) {
-            throw std::runtime_error("failed to begin recording command buffer!");
-        }
-
-        //start render pass
-        VkRenderPassBeginInfo renderPassInfo{};
-        renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-        renderPassInfo.renderPass = renderpassVulkan.GetRenderpass();
-        renderPassInfo.framebuffer = swapchainVulkan.GetCurrentFrameBuffer();//attachments to bind (here = color attch)
-        renderPassInfo.renderArea.offset = { 0, 0 };//size of render area where shader loads+stores take place
-        renderPassInfo.renderArea.extent = swapchainVulkan.GetExtent();//match attch size for best perf
-        VkClearValue clearColor = { {{0.2f, 0.2f, 0.4f, 1.0f}} };//osg bkg
-        renderPassInfo.clearValueCount = 1;
-        renderPassInfo.pClearValues = &clearColor;
-        vkCmdBeginRenderPass(commandBuffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
-
-        //set viewport and scissor b/c opted for dynamic
-        VkViewport viewport{};
-        viewport.x = 0.0f;
-        viewport.y = 0.0f;
-        viewport.width = static_cast<float>(swapchainVulkan.GetExtent().width);
-        viewport.height = static_cast<float>(swapchainVulkan.GetExtent().height);
-        viewport.minDepth = 0.0f;
-        viewport.maxDepth = 1.0f;
-        vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
-
-        VkRect2D scissor{};
-        scissor.offset = { 0, 0 };
-        scissor.extent = swapchainVulkan.GetExtent();
-        vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
-
-
-        vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, piplineVulkan.GetPipeline());
-
-        VkDeviceSize offset = 0;
-        vkCmdBindVertexBuffers(commandBuffer, 0, 1, &vboVulkan.GetBuffer().GetBuffer(), &offset);
-
-        //draw that motherfucker
-        vkCmdDraw(commandBuffer, 3, 1, 0, 0);
-
-        //end the render pass
-        vkCmdEndRenderPass(commandBuffer);
-
-        //finished recording cmd buffer
-        if (vkEndCommandBuffer(commandBuffer) != VK_SUCCESS) {
-            throw std::runtime_error("failed to record command buffer!");
-        }
-    }//14c
     void drawFrame() {
         //std::cout<<"Tick"<<std::endl;
         vkWaitForFences(deviceVulkan.GetDevice(), 1, &inFlightFence, VK_TRUE, UINT64_MAX);
@@ -250,7 +192,14 @@ private:
         //ready to record the command buffer
         //vkResetCommandBuffer(commandbufferVulkan.GetCommandBuffer(), 0);
         commandbufferVulkan.ResetCommandBuffer();
-        recordCommandBuffer(commandbufferVulkan.GetCommandBuffer(), swapchainVulkan.GetImgIdx());
+        //recordCommandBuffer(commandbufferVulkan.GetCommandBuffer(), swapchainVulkan.GetImgIdx());
+        commandbufferVulkan.BeginCommand();
+        commandbufferVulkan.BeginRenderPass(renderpassVulkan, swapchainVulkan);
+        commandbufferVulkan.BindPipeline(piplineVulkan);
+        commandbufferVulkan.BindVBO(vboVulkan, 0);
+        commandbufferVulkan.Draw(3, 1, 0, 0);
+        commandbufferVulkan.EndRenderPass();
+        commandbufferVulkan.EndCommand();
 
         //submit cmd buffer
         VkSubmitInfo submitInfo{};

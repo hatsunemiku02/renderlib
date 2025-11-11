@@ -57,7 +57,7 @@ VkShaderModule PipelineVulkan::createShaderModule(const DeviceVulkan& device, co
 
 void PipelineVulkan::CreateGraphicPipeline(const DeviceVulkan& deviceVulkan,const RenderpassVulkan& renderpassVulkan)
 {
-    
+    m_Type = Graphic;
     //Next: the fixed function stages: input, rasterization, color blending
     //desc format of vertex data: data spacing(binding) and attribute descripiton
     VkPipelineVertexInputStateCreateInfo vertexInputInfo{};
