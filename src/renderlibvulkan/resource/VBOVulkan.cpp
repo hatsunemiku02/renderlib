@@ -56,17 +56,24 @@ std::shared_ptr<VertexInputDescription> desc= std::make_shared<VertexInputDescri
 //{ 0, 1, VK_FORMAT_R32G32_SFLOAT, sizeof(float)},
 //};
 
+VBOVulkan::VBOVulkan()
+{
+}
+
+VBOVulkan::~VBOVulkan()
+{
+}
+
 void VBOVulkan::DefaultCreate(const DeviceVulkan& device)
 {
 	CreateVBO(device, Vertices.data(), sizeof(float) * 3 * 5);
 	desc->bindings = {
 		{ 0, 5 * sizeof(float), VK_VERTEX_INPUT_RATE_VERTEX },
-		{ 0, 5 * sizeof(float), VK_VERTEX_INPUT_RATE_VERTEX },
 	};
 
 	desc->attributes = {
 			{ 0, 0, VK_FORMAT_R32G32B32_SFLOAT, 0},
-			{ 0, 1, VK_FORMAT_R32G32_SFLOAT, sizeof(float)},
+			{ 1, 0, VK_FORMAT_R32G32_SFLOAT, sizeof(float)},
 	};
 	SetVBODesc(desc);
 }

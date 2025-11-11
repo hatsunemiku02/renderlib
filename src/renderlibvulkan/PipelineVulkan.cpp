@@ -1,10 +1,12 @@
 #include "PipelineVulkan.h"
 #include "DeviceVulkan.h"
 #include "RenderpassVulkan.h"
+#include "ShaderVulkan.h"
 #include "resource/VBOVulkan.h"
 #include <stdexcept>
 
 PipelineVulkan::PipelineVulkan()
+    :m_pVertexBind()
 {
 }
 
@@ -16,6 +18,28 @@ void PipelineVulkan::SetVertexBind(const std::shared_ptr<VertexInputDescription>
 {
     m_pVertexBind = bind;
 }
+
+void PipelineVulkan::SetShaderBind(const ShaderVulkan& vs, const ShaderVulkan& ps)
+{
+    //shader stage creation
+    //first the programmable stages: vertex, tesselation, geometry, fragment
+    VkPipelineShaderStageCreateInfo vertShaderStageInfo{};
+    vertShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+    vertShaderStageInfo.stage = VK_SHADER_STAGE_VERTEX_BIT;
+    vertShaderStageInfo.module = vs.GetShaderModule();//enum value
+    vertShaderStageInfo.pName = "main";
+    vertShaderStageInfo.pSpecializationInfo = nullptr;//use to specify values for shader constants
+
+    VkPipelineShaderStageCreateInfo fragShaderStageInfo{};
+    fragShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+    fragShaderStageInfo.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
+    fragShaderStageInfo.module = ps.GetShaderModule();
+    fragShaderStageInfo.pName = "main";
+
+    m_ShaderStages = { vertShaderStageInfo, fragShaderStageInfo };
+}
+
+
 
 
 
@@ -31,28 +55,9 @@ VkShaderModule PipelineVulkan::createShaderModule(const DeviceVulkan& device, co
     return shaderModule;
 }
 
-void PipelineVulkan::CreateGraphicPipeline(const DeviceVulkan& deviceVulkan,const RenderpassVulkan& renderpassVulkan,const std::vector<char>& vertShaderCode, const std::vector<char>& fragShaderCode)
+void PipelineVulkan::CreateGraphicPipeline(const DeviceVulkan& deviceVulkan,const RenderpassVulkan& renderpassVulkan)
 {
-    VkShaderModule vertShaderModule = createShaderModule(deviceVulkan,vertShaderCode);
-    VkShaderModule fragShaderModule = createShaderModule(deviceVulkan,fragShaderCode);
-
-    //shader stage creation
-    //first the programmable stages: vertex, tesselation, geometry, fragment
-    VkPipelineShaderStageCreateInfo vertShaderStageInfo{};
-    vertShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-    vertShaderStageInfo.stage = VK_SHADER_STAGE_VERTEX_BIT;
-    vertShaderStageInfo.module = vertShaderModule;//enum value
-    vertShaderStageInfo.pName = "main";
-    vertShaderStageInfo.pSpecializationInfo = nullptr;//use to specify values for shader constants
-
-    VkPipelineShaderStageCreateInfo fragShaderStageInfo{};
-    fragShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-    fragShaderStageInfo.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
-    fragShaderStageInfo.module = fragShaderModule;
-    fragShaderStageInfo.pName = "main";
-
-    VkPipelineShaderStageCreateInfo shaderStages[] = { vertShaderStageInfo, fragShaderStageInfo };
-
+    
     //Next: the fixed function stages: input, rasterization, color blending
     //desc format of vertex data: data spacing(binding) and attribute descripiton
     VkPipelineVertexInputStateCreateInfo vertexInputInfo{};
@@ -173,8 +178,8 @@ void PipelineVulkan::CreateGraphicPipeline(const DeviceVulkan& deviceVulkan,cons
     //Now have all pcs to define graphics pipeline
     VkGraphicsPipelineCreateInfo pipelineInfo{};
     pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
-    pipelineInfo.stageCount = 2;
-    pipelineInfo.pStages = shaderStages;
+    pipelineInfo.stageCount = m_ShaderStages.size();
+    pipelineInfo.pStages = m_ShaderStages.data();
 
     pipelineInfo.pVertexInputState = &vertexInputInfo;
     pipelineInfo.pInputAssemblyState = &inputAssembly;
@@ -198,6 +203,6 @@ void PipelineVulkan::CreateGraphicPipeline(const DeviceVulkan& deviceVulkan,cons
     }
 
     //@end of fixed function stages
-    vkDestroyShaderModule(deviceVulkan.GetDevice(), fragShaderModule, nullptr);
-    vkDestroyShaderModule(deviceVulkan.GetDevice(), vertShaderModule, nullptr);
+    //vkDestroyShaderModule(deviceVulkan.GetDevice(), fragShaderModule, nullptr);
+    //vkDestroyShaderModule(deviceVulkan.GetDevice(), vertShaderModule, nullptr);
 }

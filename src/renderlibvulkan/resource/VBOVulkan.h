@@ -29,6 +29,11 @@ public:
 	{
 		return m_pVertexDesc;
 	}
+
+	const BufferVulkan& const GetBuffer() const
+	{
+		return m_VertexBuffer;
+	}
 private:
 	BufferVulkan m_VertexBuffer;
 	std::shared_ptr<VertexInputDescription>    m_pVertexDesc;

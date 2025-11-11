@@ -22,6 +22,8 @@
 #include "renderlibvulkan/CommandPoolVulkan.h"
 #include "renderlibvulkan/CommandBufferVulkan.h"
 #include "renderlibvulkan/QueueVulkan.h"
+#include "renderlibvulkan/resource/VBOVulkan.h"
+#include "renderlibvulkan/ShaderVulkan.h"
 
 
 DeviceVulkan  deviceVulkan;
@@ -32,6 +34,9 @@ CommandPoolVulkan commandpoolVulkan;
 CommadBufferVulkan commandbufferVulkan;
 QueueVulkan graphicQueue;
 QueueVulkan presentQueue;
+VBOVulkan    vboVulkan;
+ShaderVulkan vsShaderVulkan;
+ShaderVulkan psShaderVulkan;
 
 
 const uint32_t WIDTH = 800;
@@ -84,11 +89,22 @@ private:
         swapchainVulkan.createSwapChain(deviceVulkan, surface, 800, 600);
         swapchainVulkan.createImageViews(deviceVulkan);
         renderpassVulkan.DefaultCreate(deviceVulkan, swapchainVulkan);
-        //createRenderPass();
-        auto vertShaderCode = readFile("D:/workspace/renderlib/res/shader/vert1.spv");
-        auto fragShaderCode = readFile("D:/workspace/renderlib/res/shader/frag1.spv");
 
-        piplineVulkan.CreateGraphicPipeline(deviceVulkan,renderpassVulkan, vertShaderCode, fragShaderCode);
+
+        vboVulkan.DefaultCreate(deviceVulkan);
+        //createRenderPass();
+        auto vertShaderCode = readFile("D:/workspace/renderlib/res/shader/shader.vert.spv");
+        auto fragShaderCode = readFile("D:/workspace/renderlib/res/shader/shader.frag.spv");
+
+        vsShaderVulkan.CreateShader(deviceVulkan, vertShaderCode);
+        psShaderVulkan.CreateShader(deviceVulkan, fragShaderCode);
+
+        piplineVulkan.SetShaderBind(vsShaderVulkan, psShaderVulkan);
+        piplineVulkan.SetVertexBind(vboVulkan.GetVertexDesc());
+        piplineVulkan.CreateGraphicPipeline(deviceVulkan,renderpassVulkan);
+        vsShaderVulkan.DestoryShader(deviceVulkan);
+        psShaderVulkan.DestoryShader(deviceVulkan);
+
         swapchainVulkan.createFramebuffers(deviceVulkan,renderpassVulkan);
 
         commandpoolVulkan.CreateCommandPool(deviceVulkan);
@@ -210,6 +226,10 @@ private:
 
 
         vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, piplineVulkan.GetPipeline());
+
+        VkDeviceSize offset = 0;
+        vkCmdBindVertexBuffers(commandBuffer, 0, 1, &vboVulkan.GetBuffer().GetBuffer(), &offset);
+
         //draw that motherfucker
         vkCmdDraw(commandBuffer, 3, 1, 0, 0);
 

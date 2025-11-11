@@ -145,6 +145,7 @@
     <ClCompile Include="..\..\src\renderlibvulkan\resource\TextureVulkan.cpp" />
     <ClCompile Include="..\..\src\renderlibvulkan\resource\VBOVulkan.cpp" />
     <ClCompile Include="..\..\src\renderlibvulkan\resource\ViewVulkan.cpp" />
+    <ClCompile Include="..\..\src\renderlibvulkan\ShaderVulkan.cpp" />
     <ClCompile Include="..\..\src\renderlibvulkan\SwapChainVulkan.cpp" />
     <ClCompile Include="..\..\src\renderlib\computeshader.cpp" />
     <ClCompile Include="..\..\src\renderlib\drawcall.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="..\..\src\renderlibvulkan\resource\TextureVulkan.h" />
     <ClInclude Include="..\..\src\renderlibvulkan\resource\VBOVulkan.h" />
     <ClInclude Include="..\..\src\renderlibvulkan\resource\ViewVulkan.h" />
+    <ClInclude Include="..\..\src\renderlibvulkan\ShaderVulkan.h" />
     <ClInclude Include="..\..\src\renderlibvulkan\SwapChainVulkan.h" />
     <ClInclude Include="..\..\src\renderlib\computeshader.h" />
     <ClInclude Include="..\..\src\renderlib\drawcall.h" />

@@ -1,6 +1,16 @@
 #include "BufferVulkan.h"
 #include "../DeviceVulkan.h"
 
+BufferVulkan::BufferVulkan()
+	:m_Buffer()
+	, m_Allocation()
+{
+}
+
+BufferVulkan::~BufferVulkan()
+{
+}
+
 void BufferVulkan::Allocate(const DeviceVulkan& device, void* data,uint32_t size, VkBufferUsageFlagBits usage)
 {
 	VkBufferCreateInfo bufferInfo = {};

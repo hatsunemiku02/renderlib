@@ -14,6 +14,10 @@ public:
 
 	void UploadData(const DeviceVulkan& device, void* data, uint32_t size);
 
+	const VkBuffer& const GetBuffer() const
+	{
+		return m_Buffer;
+	}
 private:
 
 
