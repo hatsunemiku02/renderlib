@@ -2,11 +2,11 @@
 #include "vulkan/vulkan.h"
 #include <vector>
 #include <algorithm>
+#include "SemaphoreVulkan.h"
 
 
 class DeviceVulkan;
 class RenderpassVulkan;
-
 
 class SwapChainVulkan
 {
@@ -45,7 +45,7 @@ public:
         return swapChain;
     }
 
-    VkSemaphore GetimageAvailableSemaphore()
+    const SemaphoreVulkan& GetimageAvailableSemaphore() const
     {
         return imageAvailableSemaphore;
     }
@@ -78,8 +78,8 @@ public:
         std::vector<VkImageView> swapChainImageViews;
         std::vector<VkFramebuffer> swapChainFramebuffers;
 
-        VkSemaphore imageAvailableSemaphore;//sync @gpu
-        VkSemaphore renderFinishedSemaphore;//sync @gpu
+        SemaphoreVulkan imageAvailableSemaphore;//sync @gpu
+        SemaphoreVulkan renderFinishedSemaphore;//sync @gpu
 
         uint32_t imageIndex;
 };

@@ -1,6 +1,6 @@
 #include "VBOVulkan.h"
+#include "BufferTransfer.h"
 #include "../DeviceVulkan.h"
-
 #include <vector>
 
 
@@ -80,8 +80,11 @@ void VBOVulkan::DefaultCreate(const DeviceVulkan& device)
 
 void VBOVulkan::CreateVBO(const DeviceVulkan& device, void* data, uint32_t size)
 {
-	m_VertexBuffer.Allocate(device, data, size, VK_BUFFER_USAGE_VERTEX_BUFFER_BIT);
+	m_StagingxBuffer.Allocate(device, data, size, VMA_MEMORY_USAGE_CPU_ONLY, VK_BUFFER_USAGE_TRANSFER_SRC_BIT);
 
+	m_VertexBuffer.Allocate(device,size, VMA_MEMORY_USAGE_GPU_ONLY, VK_BUFFER_USAGE_VERTEX_BUFFER_BIT|VK_BUFFER_USAGE_TRANSFER_DST_BIT);
+
+	BufferTransfer::GetInstance().AddTransferCmd(&m_StagingxBuffer, &m_VertexBuffer,size, 0, 0);
 }
 
 void VBOVulkan::SetVBODesc(const std::shared_ptr<VertexInputDescription>& desc)

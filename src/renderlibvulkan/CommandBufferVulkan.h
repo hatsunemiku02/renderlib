@@ -9,6 +9,7 @@ class RenderpassVulkan;
 class SwapChainVulkan;
 class PipelineVulkan;
 class VBOVulkan;
+class BufferVulkan;
 class CommadBufferVulkan
 {
 public:
@@ -18,7 +19,7 @@ public:
 
     void CreateCommandBuffer(const DeviceVulkan& deviceVulkan,const CommandPoolVulkan& commandPoolVulkan);
 
-    void BeginCommand();
+    void BeginCommand(VkCommandBufferUsageFlags usageflag = 0);
 
     void EndCommand();
 
@@ -29,6 +30,8 @@ public:
     void BindPipeline(const PipelineVulkan& pipline);
 
     void BindVBO(const VBOVulkan& pipline, uint64_t offset);
+
+    void CopyBuffer(const BufferVulkan& src, const BufferVulkan& dst, uint32_t srcoffset, uint32_t dstoffset, uint32_t size);
 
     void Draw(uint32_t vtxcount,uint32_t instancecount, uint32_t vtxoffset, uint32_t instanceoffset);
 

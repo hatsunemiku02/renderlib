@@ -5,6 +5,8 @@
 
 #include "vk_mem_alloc.h"
 
+
+
 template< class T >
 static inline void ZeroVulkanStruct(T& Struct, int32_t VkStructureType)
 {

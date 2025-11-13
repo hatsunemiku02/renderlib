@@ -49,10 +49,12 @@ void SwapChainVulkan::createSwapChain(const DeviceVulkan& deviceVulkan, VkSurfac
     VkSemaphoreCreateInfo semaphoreInfo{};
     semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
 
-    if (vkCreateSemaphore(deviceVulkan.GetDevice(), &semaphoreInfo, nullptr, &imageAvailableSemaphore) != VK_SUCCESS)
-    {
-        throw std::runtime_error("failed to create semaphores!");
-    }
+    //if (vkCreateSemaphore(deviceVulkan.GetDevice(), &semaphoreInfo, nullptr, &imageAvailableSemaphore) != VK_SUCCESS)
+    //{
+    //    throw std::runtime_error("failed to create semaphores!");
+    //}
+
+    imageAvailableSemaphore.CreateSemaphore(deviceVulkan, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT);
 
     SwapChainSupportDetails swapChainSupport;
     DynamicRHIVulkan::GetInstance().QuerySwapChainSupport(deviceVulkan.GetPhysicalDevice(), surface, swapChainSupport);
@@ -193,5 +195,5 @@ void SwapChainVulkan::createFramebuffers(const DeviceVulkan& deviceVulkan, const
 
 void SwapChainVulkan::acquireImageIdx(const DeviceVulkan& deviceVulkan)
 {
-    vkAcquireNextImageKHR(deviceVulkan.GetDevice(), swapChain, UINT64_MAX, imageAvailableSemaphore, VK_NULL_HANDLE, &imageIndex);
+    vkAcquireNextImageKHR(deviceVulkan.GetDevice(), swapChain, UINT64_MAX, imageAvailableSemaphore.GetSemaphore(), VK_NULL_HANDLE, &imageIndex);
 }

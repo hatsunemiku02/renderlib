@@ -11,7 +11,23 @@
 #include <iostream>
 #include "IDynamicRHIVulkan.h"
 
+inline const char* VkResultToString(VkResult result) {
+	switch (result) {
+	case VK_SUCCESS: return "VK_SUCCESS";
+	case VK_ERROR_DEVICE_LOST: return "VK_ERROR_DEVICE_LOST";
+	case VK_ERROR_OUT_OF_HOST_MEMORY: return "VK_ERROR_OUT_OF_HOST_MEMORY";
+		// ... ÆäËû´íÎóÂë
+	default: return "UNKNOWN_ERROR";
+	}
+}
 
+#define VKCHECK(expr) \
+        VkResult result = (expr); \
+        if (result != VK_SUCCESS) { \
+            throw std::runtime_error(std::string("Vulkan error in ") + #expr + \
+                                   ": " + VkResultToString(result) + \
+                                   " (" + std::to_string(result) + ")"); \
+        }
 
 #ifdef NDEBUG
 static const bool enableValidationLayers = false;

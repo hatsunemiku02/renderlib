@@ -5,6 +5,7 @@
 #include "SwapChainVulkan.h"
 #include "PipelineVulkan.h"
 #include "resource/VBOVulkan.h"
+#include "resource/BufferVulkan.h"
 #include <stdexcept>
 
 CommadBufferVulkan::CommadBufferVulkan()
@@ -27,11 +28,11 @@ void CommadBufferVulkan::CreateCommandBuffer(const DeviceVulkan& deviceVulkan,co
     }
 }
 
-void CommadBufferVulkan::BeginCommand()
+void CommadBufferVulkan::BeginCommand(VkCommandBufferUsageFlags usageflag)
 {
     VkCommandBufferBeginInfo beginInfo{};
     beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-    beginInfo.flags = 0; // Optional
+    beginInfo.flags = usageflag; // Optional
     beginInfo.pInheritanceInfo = nullptr; // Optional
 
     if (vkBeginCommandBuffer(m_CommandBuffer, &beginInfo) != VK_SUCCESS) {
@@ -102,6 +103,16 @@ void CommadBufferVulkan::BindVBO(const VBOVulkan& vbo, uint64_t offset)
     uint64_t offsetin = offset;
     vkCmdBindVertexBuffers(m_CommandBuffer, 0, 1, &vbo.GetBuffer().GetBuffer(), &offsetin);
 }
+
+void CommadBufferVulkan::CopyBuffer(const BufferVulkan& src, const BufferVulkan& dst, uint32_t srcoffset, uint32_t dstoffset, uint32_t size)
+{
+    VkBufferCopy copy;
+    copy.dstOffset = dstoffset;
+    copy.srcOffset = srcoffset;
+    copy.size = size;
+    vkCmdCopyBuffer(m_CommandBuffer, src.GetBuffer(), dst.GetBuffer(), 1, &copy);
+}
+
 
 void CommadBufferVulkan::Draw(uint32_t vtxcount, uint32_t instancecount, uint32_t vtxoffset, uint32_t instanceoffset)
 {

@@ -1,8 +1,10 @@
 #pragma once
 #include "vulkan/vulkan.h"
-
+#include <vector>
 
 class DeviceVulkan;
+class SemaphoreVulkan;
+class CommadBufferVulkan;
 
 enum class EQueueType : uint8_t
 {
@@ -21,6 +23,9 @@ public:
 
 	void Create(EQueueType type, const DeviceVulkan& device);
 
+	void Submit(const std::vector<CommadBufferVulkan*>& cmdBufferList, const std::vector<SemaphoreVulkan*>& waitSemaphores, const std::vector<SemaphoreVulkan*>& signalSemaphores) const;
+
+	void WaitSubmit(const DeviceVulkan& device) const;
 
 	EQueueType	GetType() const
 	{
@@ -35,6 +40,7 @@ public:
 private:
 	EQueueType m_QueueType;
 	VkQueue m_Queue;
+	VkFence m_SubmitFence;
 };
 
 

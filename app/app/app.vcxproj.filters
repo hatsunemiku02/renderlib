@@ -144,6 +144,12 @@
     <ClCompile Include="..\..\src\renderlibvulkan\ShaderVulkan.cpp">
       <Filter>src\renderlibvulkan</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\renderlibvulkan\resource\BufferTransfer.cpp">
+      <Filter>src\renderlibvulkan\resoource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlibvulkan\SemaphoreVulkan.cpp">
+      <Filter>src\renderlibvulkan</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\resourcemgr\material.h">
@@ -252,6 +258,12 @@
       <Filter>src\renderlibvulkan\resoource</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\renderlibvulkan\ShaderVulkan.h">
+      <Filter>src\renderlibvulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlibvulkan\resource\BufferTransfer.h">
+      <Filter>src\renderlibvulkan\resoource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlibvulkan\SemaphoreVulkan.h">
       <Filter>src\renderlibvulkan</Filter>
     </ClInclude>
   </ItemGroup>

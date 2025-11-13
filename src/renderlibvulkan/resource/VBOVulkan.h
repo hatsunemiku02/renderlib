@@ -35,6 +35,7 @@ public:
 		return m_VertexBuffer;
 	}
 private:
+	BufferVulkan m_StagingxBuffer;
 	BufferVulkan m_VertexBuffer;
 	std::shared_ptr<VertexInputDescription>    m_pVertexDesc;
 

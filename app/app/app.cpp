@@ -24,6 +24,8 @@
 #include "renderlibvulkan/QueueVulkan.h"
 #include "renderlibvulkan/resource/VBOVulkan.h"
 #include "renderlibvulkan/ShaderVulkan.h"
+#include "renderlibvulkan/SemaphoreVulkan.h"
+#include "renderlibvulkan/resource/BufferTransfer.h"
 
 
 DeviceVulkan  deviceVulkan;
@@ -63,8 +65,11 @@ public:
 private:
     GLFWwindow* window;
     VkSurfaceKHR surface;
-    VkSemaphore renderFinishedSemaphore;//sync @gpu
-    VkFence inFlightFence;//sync @cpu for next frame
+    //VkSemaphore renderFinishedSemaphore;//sync @gpu
+    SemaphoreVulkan renderFinishedSemaphore;
+
+
+    //VkFence inFlightFence;//sync @cpu for next frame
 
     void initWindow() {
         glfwInit();
@@ -82,6 +87,8 @@ private:
         createSurface();
         deviceVulkan.pickPhysicalDevice(surface);
         deviceVulkan.CreateDevice();
+
+        BufferTransfer::GetInstance().Init(deviceVulkan);
 
         graphicQueue.Create(EQueueType::Graphics, deviceVulkan);
         presentQueue.Create(EQueueType::Present, deviceVulkan);
@@ -112,40 +119,6 @@ private:
         createSyncObjects();
     }//0
 
-    std::vector<const char*> getRequiredExtensions() {
-        uint32_t glfwExtensionCount = 0;
-        const char** glfwExtensions;
-        glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
-
-        std::vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
-
-        if (enableValidationLayers) {
-            extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
-        }
-        return extensions;
-    }//1a
-    bool checkValidationLayerSupport() {
-        uint32_t layerCount;
-        vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
-
-        std::vector<VkLayerProperties> availableLayers(layerCount);
-        vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
-
-        for (const char* layerName : validationLayers) {
-            bool layerFound = false;
-            for (const auto& layerProperties : availableLayers) {
-                if (strcmp(layerName, layerProperties.layerName) == 0) {
-                    layerFound = true;
-                    break;
-                }
-            }
-            if (!layerFound) {
-                return false;
-            }
-        }
-        return true;
-    }//1b
-
 
 
 
@@ -170,23 +143,28 @@ private:
     }//9a
 
     void createSyncObjects() {
-        VkSemaphoreCreateInfo semaphoreInfo{};
-        semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
-        VkFenceCreateInfo fenceInfo{};
-        fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
-        fenceInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;//create in signaled state so don't wait on first frame!
-        if (
-            vkCreateSemaphore(deviceVulkan.GetDevice(), &semaphoreInfo, nullptr, &renderFinishedSemaphore) != VK_SUCCESS ||
-            vkCreateFence(deviceVulkan.GetDevice(), &fenceInfo, nullptr, &inFlightFence) != VK_SUCCESS) {
-            throw std::runtime_error("failed to create semaphores!");
-        }
+        //VkSemaphoreCreateInfo semaphoreInfo{};
+        //semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
+        //VkFenceCreateInfo fenceInfo{};
+        //fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
+        //fenceInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;//create in signaled state so don't wait on first frame!
+        //if (
+        //    vkCreateSemaphore(deviceVulkan.GetDevice(), &semaphoreInfo, nullptr, &renderFinishedSemaphore) != VK_SUCCESS ||
+        //    vkCreateFence(deviceVulkan.GetDevice(), &fenceInfo, nullptr, &inFlightFence) != VK_SUCCESS) {
+        //    throw std::runtime_error("failed to create semaphores!");
+        //}
+        renderFinishedSemaphore.CreateSemaphore(deviceVulkan, 0);
+
+
     }//13
     //END: initialization
 
     void drawFrame() {
         //std::cout<<"Tick"<<std::endl;
-        vkWaitForFences(deviceVulkan.GetDevice(), 1, &inFlightFence, VK_TRUE, UINT64_MAX);
-        vkResetFences(deviceVulkan.GetDevice(), 1, &inFlightFence);
+
+        BufferTransfer::GetInstance().Excute(deviceVulkan,graphicQueue);
+
+        graphicQueue.WaitSubmit(deviceVulkan);
 
         swapchainVulkan.acquireImageIdx(deviceVulkan);
         //ready to record the command buffer
@@ -199,34 +177,25 @@ private:
         commandbufferVulkan.BindVBO(vboVulkan, 0);
         commandbufferVulkan.Draw(3, 1, 0, 0);
         commandbufferVulkan.EndRenderPass();
+
         commandbufferVulkan.EndCommand();
 
-        //submit cmd buffer
-        VkSubmitInfo submitInfo{};
-        submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-        //specify which semaphores to wait for
-        VkSemaphore waitSemaphores[] = { swapchainVulkan.GetimageAvailableSemaphore() };
-        VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
-        submitInfo.waitSemaphoreCount = 1;
-        submitInfo.pWaitSemaphores = waitSemaphores;
-        submitInfo.pWaitDstStageMask = waitStages;
-        //specify which cmd buffers to submit (we only have 1)
-        submitInfo.commandBufferCount = 1;
-        submitInfo.pCommandBuffers = commandbufferVulkan.GetCommandBufferPtr();
-        //specify which semaphores to signal when cmd finished
-        VkSemaphore signalSemaphores[] = { renderFinishedSemaphore };
-        submitInfo.signalSemaphoreCount = 1;
-        submitInfo.pSignalSemaphores = signalSemaphores;
-        //submit cmd buffer to graphics queue
-        if (vkQueueSubmit(graphicQueue.GetQueue(), 1, &submitInfo, inFlightFence) != VK_SUCCESS) {
-            throw std::runtime_error("failed to submit draw command buffer!");
-        }
+        std::vector<CommadBufferVulkan*> cmdlist;
+        cmdlist.push_back(&commandbufferVulkan);
+        std::vector<SemaphoreVulkan*> waitsmplist;
+        waitsmplist.push_back(const_cast<SemaphoreVulkan*>(&swapchainVulkan.GetimageAvailableSemaphore()) );
+        std::vector<SemaphoreVulkan*> signalsmplist;
+        signalsmplist.push_back(&renderFinishedSemaphore);
+        graphicQueue.Submit(cmdlist, waitsmplist, signalsmplist);
+
+
 
         //submit the result back to swapchain for presentation
         VkPresentInfoKHR presentInfo{};
         presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
 
         presentInfo.waitSemaphoreCount = 1;
+        VkSemaphore signalSemaphores[] = { renderFinishedSemaphore.GetSemaphore()};
         presentInfo.pWaitSemaphores = signalSemaphores;
 
         VkSwapchainKHR swapChains[] = { swapchainVulkan.GetSwapchain()};

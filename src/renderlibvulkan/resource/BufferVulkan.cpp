@@ -5,31 +5,16 @@ BufferVulkan::BufferVulkan()
 	:m_Buffer()
 	, m_Allocation()
 {
+	
 }
 
 BufferVulkan::~BufferVulkan()
 {
 }
 
-void BufferVulkan::Allocate(const DeviceVulkan& device, void* data,uint32_t size, VkBufferUsageFlagBits usage)
+void BufferVulkan::Allocate(const DeviceVulkan& device, void* data,uint32_t size, VmaMemoryUsage memUsage, uint32_t usageflagbits)
 {
-	VkBufferCreateInfo bufferInfo = {};
-	bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
-	//this is the total size, in bytes, of the buffer we are allocating
-	bufferInfo.size = size;
-	//this buffer is going to be used as a Vertex Buffer
-	bufferInfo.usage = usage;
-
-
-	//let the VMA library know that this data should be writeable by CPU, but also readable by GPU
-	VmaAllocationCreateInfo vmaallocInfo = {};
-	vmaallocInfo.usage = VMA_MEMORY_USAGE_CPU_TO_GPU;
-
-	//allocate the buffer
-	vmaCreateBuffer(device.GetAllocator(), &bufferInfo, &vmaallocInfo,
-		&m_Buffer,
-		&m_Allocation,
-		nullptr);
+	Allocate(device,   size,  memUsage,  usageflagbits);
 
 	//add the destruction of triangle mesh buffer to the deletion queue
 	//_mainDeletionQueue.push_function([=]() {
@@ -41,6 +26,27 @@ void BufferVulkan::Allocate(const DeviceVulkan& device, void* data,uint32_t size
 
 }
 
+void BufferVulkan::Allocate(const DeviceVulkan& device, uint32_t size, VmaMemoryUsage memUsage, uint32_t usageflagbits)
+{
+	VkBufferCreateInfo bufferInfo = {};
+	bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
+	//this is the total size, in bytes, of the buffer we are allocating
+	bufferInfo.size = size;
+	//this buffer is going to be used as a Vertex Buffer
+	bufferInfo.usage = usageflagbits;
+
+
+	//let the VMA library know that this data should be writeable by CPU, but also readable by GPU
+	VmaAllocationCreateInfo vmaallocInfo = {};
+	vmaallocInfo.usage = memUsage;
+
+	//allocate the buffer
+	vmaCreateBuffer(device.GetAllocator(), &bufferInfo, &vmaallocInfo,
+		&m_Buffer,
+		&m_Allocation,
+		nullptr);
+}
+
 void BufferVulkan::UploadData(const DeviceVulkan& device, void* data, uint32_t size)
 {
 	void* datagpu;
@@ -49,4 +55,9 @@ void BufferVulkan::UploadData(const DeviceVulkan& device, void* data, uint32_t s
 	memcpy(datagpu, data, size);
 
 	vmaUnmapMemory(device.GetAllocator(), m_Allocation);
+}
+
+void BufferVulkan::Destory(const DeviceVulkan& device)
+{
+	vmaDestroyBuffer(device.GetAllocator(), m_Buffer, m_Allocation);
 }
