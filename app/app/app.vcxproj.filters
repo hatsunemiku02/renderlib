@@ -150,6 +150,9 @@
     <ClCompile Include="..\..\src\renderlibvulkan\SemaphoreVulkan.cpp">
       <Filter>src\renderlibvulkan</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\renderlibvulkan\resource\GpuOnlyResVulkan.cpp">
+      <Filter>src\renderlibvulkan\resoource</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\resourcemgr\material.h">
@@ -265,6 +268,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\renderlibvulkan\SemaphoreVulkan.h">
       <Filter>src\renderlibvulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlibvulkan\resource\GpuOnlyResVulkan.h">
+      <Filter>src\renderlibvulkan\resoource</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

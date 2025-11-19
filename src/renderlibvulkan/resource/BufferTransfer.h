@@ -7,7 +7,7 @@
 class BufferVulkan;
 class DeviceVulkan;
 class QueueVulkan;
-
+class TextureVulkan;
 
 struct TransferCmdParam
 {
@@ -32,6 +32,28 @@ struct TransferCmdParam
 	uint32_t      dstOffset;
 };
 
+
+//VkBufferImageCopy copyRegion = {};
+//copyRegion.bufferOffset = 0;
+//copyRegion.bufferRowLength = 0;
+//copyRegion.bufferImageHeight = 0;
+//
+//copyRegion.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+//copyRegion.imageSubresource.mipLevel = 0;
+//copyRegion.imageSubresource.baseArrayLayer = 0;
+//copyRegion.imageSubresource.layerCount = 1;
+//copyRegion.imageExtent = imageExtent;
+
+struct ImageUploadCmdParam
+{
+	ImageUploadCmdParam( TextureVulkan* img)
+		:m_pImage(img)
+	{
+
+	}
+	TextureVulkan* m_pImage;
+};
+
 class BufferTransfer
 {
 public:
@@ -43,6 +65,7 @@ public:
 		return instance;
 	}
 	void Init(const DeviceVulkan& device);
+	void AddUpLoadImgCmd(const TextureVulkan& tex);
 	void AddTransferCmd(BufferVulkan* src,
 		BufferVulkan* dst,
 		uint32_t      bufferSize,
@@ -57,5 +80,6 @@ private:
 	CommandPoolVulkan m_CommandPool;
 	CommadBufferVulkan m_CommandBuffer;
 	std::vector<TransferCmdParam> m_TransferCmdCache;
+	std::vector<ImageUploadCmdParam> m_ImageUploadCmdCache;
 };
 

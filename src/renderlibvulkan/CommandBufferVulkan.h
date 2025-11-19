@@ -10,9 +10,20 @@ class SwapChainVulkan;
 class PipelineVulkan;
 class VBOVulkan;
 class BufferVulkan;
+class TextureVulkan;
+
+
 class CommadBufferVulkan
 {
 public:
+
+    enum ImageBarrierType
+    {
+        ToTransfer,
+        ToRead,
+        ToWrite
+    };
+
     CommadBufferVulkan();
     ~CommadBufferVulkan();
 
@@ -32,6 +43,10 @@ public:
     void BindVBO(const VBOVulkan& pipline, uint64_t offset);
 
     void CopyBuffer(const BufferVulkan& src, const BufferVulkan& dst, uint32_t srcoffset, uint32_t dstoffset, uint32_t size);
+
+    void ImageBarrier(const std::vector<TextureVulkan*>& imageList,ImageBarrierType type);
+
+    void UploadImageToGPU(const TextureVulkan& texVulkan);
 
     void Draw(uint32_t vtxcount,uint32_t instancecount, uint32_t vtxoffset, uint32_t instanceoffset);
 

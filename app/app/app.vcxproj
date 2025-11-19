@@ -142,6 +142,7 @@
     <ClCompile Include="..\..\src\renderlibvulkan\RenderpassVulkan.cpp" />
     <ClCompile Include="..\..\src\renderlibvulkan\resource\BufferTransfer.cpp" />
     <ClCompile Include="..\..\src\renderlibvulkan\resource\BufferVulkan.cpp" />
+    <ClCompile Include="..\..\src\renderlibvulkan\resource\GpuOnlyResVulkan.cpp" />
     <ClCompile Include="..\..\src\renderlibvulkan\resource\IBOVulkan.cpp" />
     <ClCompile Include="..\..\src\renderlibvulkan\resource\TextureVulkan.cpp" />
     <ClCompile Include="..\..\src\renderlibvulkan\resource\VBOVulkan.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="..\..\src\renderlibvulkan\RenderpassVulkan.h" />
     <ClInclude Include="..\..\src\renderlibvulkan\resource\BufferTransfer.h" />
     <ClInclude Include="..\..\src\renderlibvulkan\resource\BufferVulkan.h" />
+    <ClInclude Include="..\..\src\renderlibvulkan\resource\GpuOnlyResVulkan.h" />
     <ClInclude Include="..\..\src\renderlibvulkan\resource\IBOVulkan.h" />
     <ClInclude Include="..\..\src\renderlibvulkan\resource\TextureVulkan.h" />
     <ClInclude Include="..\..\src\renderlibvulkan\resource\VBOVulkan.h" />

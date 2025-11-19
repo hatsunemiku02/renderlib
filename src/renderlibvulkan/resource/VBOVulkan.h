@@ -3,6 +3,7 @@
 #include "BufferVulkan.h"
 #include <vector>
 #include <memory>
+#include "GpuOnlyResVulkan.h"
 
 class DeviceVulkan;
 
@@ -32,11 +33,12 @@ public:
 
 	const BufferVulkan& const GetBuffer() const
 	{
-		return m_VertexBuffer;
+		return m_VertexBuffer.GetBuffer();
 	}
 private:
-	BufferVulkan m_StagingxBuffer;
-	BufferVulkan m_VertexBuffer;
+	//BufferVulkan m_StagingxBuffer;
+	//BufferVulkan m_VertexBuffer;
+	GpuOnlyResVulkan m_VertexBuffer;
 	std::shared_ptr<VertexInputDescription>    m_pVertexDesc;
 
 };

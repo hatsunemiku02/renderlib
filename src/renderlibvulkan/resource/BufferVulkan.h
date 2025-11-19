@@ -18,7 +18,7 @@ public:
 
 	void Destory(const DeviceVulkan& device);
 
-	const VkBuffer& const GetBuffer() const
+	const VkBuffer&  GetBuffer() const
 	{
 		return m_Buffer;
 	}
@@ -28,7 +28,7 @@ private:
 	VkBuffer m_Buffer;
 	VmaAllocation m_Allocation;
 
-
+	
 
 	//VkFence m_UploadFence;
 	//VkCommandPool m_CommandPool;

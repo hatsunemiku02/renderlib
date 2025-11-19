@@ -6,6 +6,7 @@
 #include "PipelineVulkan.h"
 #include "resource/VBOVulkan.h"
 #include "resource/BufferVulkan.h"
+#include "resource/TextureVulkan.h"
 #include <stdexcept>
 
 CommadBufferVulkan::CommadBufferVulkan()
@@ -111,6 +112,86 @@ void CommadBufferVulkan::CopyBuffer(const BufferVulkan& src, const BufferVulkan&
     copy.srcOffset = srcoffset;
     copy.size = size;
     vkCmdCopyBuffer(m_CommandBuffer, src.GetBuffer(), dst.GetBuffer(), 1, &copy);
+}
+
+void CommadBufferVulkan::ImageBarrier(const std::vector<TextureVulkan*>& imageList, ImageBarrierType type)
+{
+    VkImageLayout targetLayout;
+    VkAccessFlags srcAccessMask;
+    VkAccessFlags dstAccessMask;
+    VkPipelineStageFlagBits srcStageMask;
+    VkPipelineStageFlagBits dstStageMask;
+
+    if (type==ToTransfer)
+    {
+        targetLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+        srcAccessMask = 0;
+        dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+        srcStageMask = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
+        dstStageMask = VK_PIPELINE_STAGE_TRANSFER_BIT;
+    }
+    else if (type == ToRead)
+    {
+        targetLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+        srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+        dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+        srcStageMask = VK_PIPELINE_STAGE_TRANSFER_BIT;
+        dstStageMask = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+    }
+    else
+    {
+        std::runtime_error("Image Barrier Type Not Implemented");
+    }
+
+    std::vector<VkImageMemoryBarrier> imgMemBarrier;
+    imgMemBarrier.resize(imageList.size());
+
+    for (int i=0;i<imageList.size();i++)
+    {
+        if (imageList[i]->GetImageLayout() == targetLayout)
+        {
+            std::runtime_error("new layout equal to old layout,no need to transfer");
+        }
+
+        VkImageSubresourceRange range;
+        range.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+        range.baseMipLevel = 0;
+        range.levelCount = 1;
+        range.baseArrayLayer = 0;
+        range.layerCount = 1;
+
+        VkImageMemoryBarrier imageBarrier_toTransfer = {};
+        imageBarrier_toTransfer.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
+
+        imageBarrier_toTransfer.oldLayout = imageList[i]->GetImageLayout();
+        imageBarrier_toTransfer.newLayout = targetLayout;
+        imageBarrier_toTransfer.image = imageList[i]->GetImage();
+        imageBarrier_toTransfer.subresourceRange = range;
+
+        imageBarrier_toTransfer.srcAccessMask = srcAccessMask;
+        imageBarrier_toTransfer.dstAccessMask = dstAccessMask;
+        imgMemBarrier[i] = imageBarrier_toTransfer;
+
+    }
+    //barrier the image into the transfer-receive layout
+    vkCmdPipelineBarrier(m_CommandBuffer, srcStageMask, dstStageMask, 0, 0, nullptr, 0, nullptr, imgMemBarrier.size(), imgMemBarrier.data());
+}
+
+void CommadBufferVulkan::UploadImageToGPU(const TextureVulkan& image)
+{
+    VkBufferImageCopy copyRegion = {};
+    copyRegion.bufferOffset = 0;
+    copyRegion.bufferRowLength = 0;
+    copyRegion.bufferImageHeight = 0;
+
+    copyRegion.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+    copyRegion.imageSubresource.mipLevel = 0;
+    copyRegion.imageSubresource.baseArrayLayer = 0;
+    copyRegion.imageSubresource.layerCount = 1;
+    copyRegion.imageExtent = image.GetImageSize();
+
+    //copy the buffer into the image
+    vkCmdCopyBufferToImage(m_CommandBuffer, image.GetStagingBuffer().GetBuffer(), image.GetImage(), VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &copyRegion);
 }
 
 

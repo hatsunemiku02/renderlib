@@ -1,6 +1,7 @@
 #include "BufferTransfer.h"
 
 #include "BufferVulkan.h"
+#include "TextureVulkan.h"
 
 #include "../DeviceVulkan.h"
 #include "../QueueVulkan.h"
@@ -8,6 +9,8 @@
 
 
 BufferTransfer::BufferTransfer()
+	:m_ImageUploadCmdCache()
+	,m_TransferCmdCache()
 {
 }
 
@@ -26,6 +29,11 @@ void BufferTransfer::Init(const DeviceVulkan& device)
 
 
 	m_CommandBuffer.CreateCommandBuffer(device, m_CommandPool);
+}
+
+void BufferTransfer::AddUpLoadImgCmd(const TextureVulkan& tex)
+{
+	m_ImageUploadCmdCache.emplace_back((TextureVulkan*) &tex);
 }
 
 void BufferTransfer::AddTransferCmd(BufferVulkan* src, BufferVulkan* dst, uint32_t bufferSize, uint32_t srcOffset, uint32_t dstOffset)
@@ -48,6 +56,22 @@ void BufferTransfer::Excute(const DeviceVulkan& device,const QueueVulkan& queueV
 		m_CommandBuffer.CopyBuffer(*m_TransferCmdCache[i].src, *m_TransferCmdCache[i].dst, m_TransferCmdCache[i].srcOffset, m_TransferCmdCache[i].dstOffset, m_TransferCmdCache[i].bufferSize);
 	}
 
+	if (m_ImageUploadCmdCache.empty()==false)
+	{
+		std::vector<TextureVulkan*> imgBarrierList;
+		imgBarrierList.resize(m_ImageUploadCmdCache.size());
+		for (int i = 0; i < m_ImageUploadCmdCache.size(); i++)
+		{
+			imgBarrierList[i] = m_ImageUploadCmdCache[i].m_pImage;
+		}
+		m_CommandBuffer.ImageBarrier(imgBarrierList, CommadBufferVulkan::ToTransfer);
+		for (int i = 0; i < m_ImageUploadCmdCache.size(); i++)
+		{
+			m_CommandBuffer.UploadImageToGPU(*(m_ImageUploadCmdCache[i].m_pImage));
+		}
+		m_CommandBuffer.ImageBarrier(imgBarrierList, CommadBufferVulkan::ToRead);
+	}
+
 	m_CommandBuffer.EndCommand();
 
 	std::vector<CommadBufferVulkan*> cmdlist;
@@ -56,20 +80,14 @@ void BufferTransfer::Excute(const DeviceVulkan& device,const QueueVulkan& queueV
 	cmdlist.push_back(&m_CommandBuffer);
 	queueVulkan.Submit(cmdlist, waitsmplist, signalsmplist);
 
+	for (int i = 0; i < m_TransferCmdCache.size(); i++)
+	{
+		m_TransferCmdCache[i].src->Destory(device);
+	}
+	for (int i = 0; i < m_ImageUploadCmdCache.size(); i++)
+	{
+		m_ImageUploadCmdCache[i].m_pImage->DestoryStagingBuffer(device);
+	}
 	m_TransferCmdCache.clear();
-
-	//VK_CHECK(vkEndCommandBuffer(cmd));
-	//
-	//VkSubmitInfo submit = vkinit::submit_info(&cmd);
-	//
-	//
-	////submit command buffer to the queue and execute it.
-	//// _uploadFence will now block until the graphic commands finish execution
-	//VK_CHECK(vkQueueSubmit(_graphicsQueue, 1, &submit, _uploadContext._uploadFence));
-	//
-	//vkWaitForFences(_device, 1, &_uploadContext._uploadFence, true, 9999999999);
-	//vkResetFences(_device, 1, &_uploadContext._uploadFence);
-	//
-	////clear the command pool. This will free the command buffer too
-	//vkResetCommandPool(_device, _uploadContext._commandPool, 0);
+	m_ImageUploadCmdCache.clear();
 }
