@@ -11,7 +11,8 @@ class PipelineVulkan;
 class VBOVulkan;
 class BufferVulkan;
 class TextureVulkan;
-
+class PipelineLayoutVulkan;
+class DescriptorVulkan;
 
 class CommadBufferVulkan
 {
@@ -41,6 +42,9 @@ public:
     void BindPipeline(const PipelineVulkan& pipline);
 
     void BindVBO(const VBOVulkan& pipline, uint64_t offset);
+
+    void BindDescSet(const PipelineLayoutVulkan& pipelineLayout, const DescriptorVulkan& descVulkan);
+
 
     void CopyBuffer(const BufferVulkan& src, const BufferVulkan& dst, uint32_t srcoffset, uint32_t dstoffset, uint32_t size);
 

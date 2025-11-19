@@ -7,6 +7,8 @@
 #include "resource/VBOVulkan.h"
 #include "resource/BufferVulkan.h"
 #include "resource/TextureVulkan.h"
+#include "PipelineLayoutVulkan.h"
+#include "DescriptorVulkan.h"
 #include <stdexcept>
 
 CommadBufferVulkan::CommadBufferVulkan()
@@ -103,6 +105,13 @@ void CommadBufferVulkan::BindVBO(const VBOVulkan& vbo, uint64_t offset)
 {
     uint64_t offsetin = offset;
     vkCmdBindVertexBuffers(m_CommandBuffer, 0, 1, &vbo.GetBuffer().GetBuffer(), &offsetin);
+}
+
+void CommadBufferVulkan::BindDescSet(const PipelineLayoutVulkan& pipelineLayout, const DescriptorVulkan& descVulkan)
+{
+    vkCmdBindDescriptorSets(m_CommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS,
+        pipelineLayout.GetPipelineLayout(), 0, descVulkan.GetDescSetCount(), descVulkan.GetDescSetPtr(),
+        0, nullptr);
 }
 
 void CommadBufferVulkan::CopyBuffer(const BufferVulkan& src, const BufferVulkan& dst, uint32_t srcoffset, uint32_t dstoffset, uint32_t size)

@@ -28,6 +28,8 @@
 #include "renderlibvulkan/SemaphoreVulkan.h"
 #include "renderlibvulkan/resource/BufferTransfer.h"
 #include "renderlibvulkan/resource/TextureVulkan.h"
+#include "renderlibvulkan/PipelineLayoutVulkan.h"
+#include "renderlibvulkan/DescriptorVulkan.h"
 
 
 DeviceVulkan  deviceVulkan;
@@ -42,6 +44,8 @@ VBOVulkan    vboVulkan;
 ShaderVulkan vsShaderVulkan;
 ShaderVulkan psShaderVulkan;
 TextureVulkan textureVulkan;
+PipelineLayoutVulkan piplineLayoutVulkan;
+DescriptorVulkan descriptorVulkan;
 
 std::vector<VkDescriptorSet> descriptorSets;
 std::vector<char> imagerbga8;
@@ -127,83 +131,28 @@ private:
         auto vertShaderCode = readFile("D:/workspace/renderlib/res/shader/shader.vert.spv");
         auto fragShaderCode = readFile("D:/workspace/renderlib/res/shader/shader.frag.spv");
 
+
+        piplineLayoutVulkan.CreatePipelineLayout(deviceVulkan);
+
         vsShaderVulkan.CreateShader(deviceVulkan, vertShaderCode);
         psShaderVulkan.CreateShader(deviceVulkan, fragShaderCode);
 
         piplineVulkan.SetShaderBind(vsShaderVulkan, psShaderVulkan);
         piplineVulkan.SetVertexBind(vboVulkan.GetVertexDesc());
+        piplineVulkan.SetPipelineLayout(&piplineLayoutVulkan);
         piplineVulkan.CreateGraphicPipeline(deviceVulkan, renderpassVulkan);
         vsShaderVulkan.DestoryShader(deviceVulkan);
         psShaderVulkan.DestoryShader(deviceVulkan);
 
-
-        std::array<VkDescriptorPoolSize, 1> poolSizes{};
-        poolSizes[0].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-        poolSizes[0].descriptorCount = static_cast<uint32_t>(1);
-
-        VkDescriptorPoolCreateInfo poolInfo{};
-        poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
-        poolInfo.poolSizeCount = static_cast<uint32_t>(poolSizes.size());
-        poolInfo.pPoolSizes = poolSizes.data();
-        poolInfo.maxSets = static_cast<uint32_t>(1);  // 最大描述符集数量
-
-        VkDescriptorPool descriptorPool;
-        if (vkCreateDescriptorPool(deviceVulkan.GetDevice(), &poolInfo, nullptr, &descriptorPool) != VK_SUCCESS) {
-            throw std::runtime_error("failed to create descriptor pool!");
-        }
-
-        std::vector<VkDescriptorSetLayout> layouts(1, piplineVulkan.GetDescSetLayout());
-        VkDescriptorSetAllocateInfo allocInfo{};
-        allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
-        allocInfo.descriptorPool = descriptorPool;
-        allocInfo.descriptorSetCount = static_cast<uint32_t>(1);
-        allocInfo.pSetLayouts = layouts.data();
-
-       
-        descriptorSets.resize(1);
-        if (vkAllocateDescriptorSets(deviceVulkan.GetDevice(), &allocInfo, descriptorSets.data()) != VK_SUCCESS) {
-            throw std::runtime_error("failed to allocate descriptor sets!");
-        }
-
-        // 更新描述符集
-        for (size_t i = 0; i < 1; i++) {
-            // Uniform缓冲区信息
-   
-
-            // 图像采样器信息
-            VkDescriptorImageInfo imageInfo{};
-            imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-            imageInfo.imageView = textureVulkan.GetImageView();
-            imageInfo.sampler = textureVulkan.GetSampler();
-
-            // 描述符写入操作
-            std::array<VkWriteDescriptorSet, 1> descriptorWrites{};
-
-            // 组合图像采样器描述符
-            descriptorWrites[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-            descriptorWrites[0].dstSet = descriptorSets[i];
-            descriptorWrites[0].dstBinding = 0;  // 对应着色器中的binding = 1
-            descriptorWrites[0].dstArrayElement = 0;
-            descriptorWrites[0].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-            descriptorWrites[0].descriptorCount = 1;
-            descriptorWrites[0].pImageInfo = &imageInfo;
-
-            // 更新描述符集
-            vkUpdateDescriptorSets(deviceVulkan.GetDevice(), static_cast<uint32_t>(descriptorWrites.size()),
-                descriptorWrites.data(), 0, nullptr);
-        }
-
-
-
-        //createRenderPass();
-        
+        descriptorVulkan.CreateDescriptor(deviceVulkan,piplineLayoutVulkan);
+        descriptorVulkan.UpdateTexture(deviceVulkan, textureVulkan);
 
         swapchainVulkan.createFramebuffers(deviceVulkan,renderpassVulkan);
 
         commandpoolVulkan.CreateCommandPool(deviceVulkan);
         commandbufferVulkan.CreateCommandBuffer(deviceVulkan, commandpoolVulkan);
         createSyncObjects();
-    }//0
+    }
 
 
 
@@ -212,7 +161,7 @@ private:
         if (glfwCreateWindowSurface(DynamicRHIVulkan::GetInstance().GetVkInstance(), window, nullptr, &surface) != VK_SUCCESS) {
             throw std::runtime_error("failed to create window surface!");
         }
-    }//3
+    }
 
     //START: graphics pipeline
     static std::vector<char> readFile(const std::string& filename) {
@@ -261,10 +210,11 @@ private:
         commandbufferVulkan.BeginRenderPass(renderpassVulkan, swapchainVulkan);
         commandbufferVulkan.BindPipeline(piplineVulkan);
         commandbufferVulkan.BindVBO(vboVulkan, 0);
+        commandbufferVulkan.BindDescSet(piplineLayoutVulkan, descriptorVulkan);
 
-        vkCmdBindDescriptorSets(commandbufferVulkan.GetCommandBuffer(), VK_PIPELINE_BIND_POINT_GRAPHICS,
-            piplineVulkan.GetPipeLineLayout(), 0, 1, &descriptorSets[0],
-            0, nullptr);
+        //vkCmdBindDescriptorSets(commandbufferVulkan.GetCommandBuffer(), VK_PIPELINE_BIND_POINT_GRAPHICS,
+        //    piplineVulkan.GetPipeLineLayout(), 0, 1, &descriptorSets[0],
+        //    0, nullptr);
 
         commandbufferVulkan.Draw(3, 1, 0, 0);
         commandbufferVulkan.EndRenderPass();

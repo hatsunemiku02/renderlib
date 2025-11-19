@@ -3,11 +3,13 @@
 #include "RenderpassVulkan.h"
 #include "ShaderVulkan.h"
 #include "resource/VBOVulkan.h"
+#include "PipelineLayoutVulkan.h"
 #include <stdexcept>
 #include <array>
 
 PipelineVulkan::PipelineVulkan()
     :m_pVertexBind()
+    , m_pPipelineLayout(nullptr)
 {
 }
 
@@ -54,6 +56,11 @@ VkShaderModule PipelineVulkan::createShaderModule(const DeviceVulkan& device, co
         throw std::runtime_error("failed to create shader module!");
     }
     return shaderModule;
+}
+
+void PipelineVulkan::SetPipelineLayout(PipelineLayoutVulkan* pipelineLayout)
+{
+    m_pPipelineLayout = pipelineLayout;
 }
 
 void PipelineVulkan::CreateGraphicPipeline(const DeviceVulkan& deviceVulkan,const RenderpassVulkan& renderpassVulkan)
@@ -166,7 +173,7 @@ void PipelineVulkan::CreateGraphicPipeline(const DeviceVulkan& deviceVulkan,cons
     //pipeline layout req'd to pass global uniforms, like vertex xformation matrix or texture samplers dynmaically
     //w/o having to recreate shaders;  PipelineLayout also specifies PUSH CONSTANTS
 
-    VkDescriptorSetLayoutBinding samplerLayoutBinding{};
+    /*VkDescriptorSetLayoutBinding samplerLayoutBinding{};
     samplerLayoutBinding.binding = 0;
     samplerLayoutBinding.descriptorCount = 1;
     samplerLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
@@ -196,7 +203,7 @@ void PipelineVulkan::CreateGraphicPipeline(const DeviceVulkan& deviceVulkan,cons
 
     if (vkCreatePipelineLayout(deviceVulkan.GetDevice(), &pipelineLayoutInfo, nullptr, &m_PipelineLayout) != VK_SUCCESS) {
         throw std::runtime_error("failed to create pipeline layout!");
-    }
+    }*/
 
     //Now have all pcs to define graphics pipeline
     VkGraphicsPipelineCreateInfo pipelineInfo{};
@@ -213,7 +220,7 @@ void PipelineVulkan::CreateGraphicPipeline(const DeviceVulkan& deviceVulkan,cons
     pipelineInfo.pColorBlendState = &colorBlending;
     pipelineInfo.pDynamicState = &dynamicState;
 
-    pipelineInfo.layout = m_PipelineLayout;//a vulkan handle, not a struct ptr
+    pipelineInfo.layout = m_pPipelineLayout->GetPipelineLayout();//a vulkan handle, not a struct ptr
 
     pipelineInfo.renderPass = renderpassVulkan.GetRenderpass();
     pipelineInfo.subpass = 0;

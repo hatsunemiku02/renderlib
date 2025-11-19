@@ -133,9 +133,11 @@
     <ClCompile Include="..\..\src\entity\entity.cpp" />
     <ClCompile Include="..\..\src\renderlibvulkan\CommandBufferVulkan.cpp" />
     <ClCompile Include="..\..\src\renderlibvulkan\CommandPoolVulkan.cpp" />
+    <ClCompile Include="..\..\src\renderlibvulkan\DescriptorVulkan.cpp" />
     <ClCompile Include="..\..\src\renderlibvulkan\DeviceVulkan.cpp" />
     <ClCompile Include="..\..\src\renderlibvulkan\DynamicRHIVulkan.cpp" />
     <ClCompile Include="..\..\src\renderlibvulkan\FramebufferVulkan.cpp" />
+    <ClCompile Include="..\..\src\renderlibvulkan\PipelineLayoutVulkan.cpp" />
     <ClCompile Include="..\..\src\renderlibvulkan\PipelineStateVulkan.cpp" />
     <ClCompile Include="..\..\src\renderlibvulkan\PipelineVulkan.cpp" />
     <ClCompile Include="..\..\src\renderlibvulkan\QueueVulkan.cpp" />
@@ -175,10 +177,12 @@
     <ClInclude Include="..\..\src\entity\entity.h" />
     <ClInclude Include="..\..\src\renderlibvulkan\CommandBufferVulkan.h" />
     <ClInclude Include="..\..\src\renderlibvulkan\CommandPoolVulkan.h" />
+    <ClInclude Include="..\..\src\renderlibvulkan\DescriptorVulkan.h" />
     <ClInclude Include="..\..\src\renderlibvulkan\DeviceVulkan.h" />
     <ClInclude Include="..\..\src\renderlibvulkan\DynamicRHIVulkan.h" />
     <ClInclude Include="..\..\src\renderlibvulkan\FramebufferVulkan.h" />
     <ClInclude Include="..\..\src\renderlibvulkan\IDynamicRHIVulkan.h" />
+    <ClInclude Include="..\..\src\renderlibvulkan\PipelineLayoutVulkan.h" />
     <ClInclude Include="..\..\src\renderlibvulkan\PipelineStateVulkan.h" />
     <ClInclude Include="..\..\src\renderlibvulkan\PipelineVulkan.h" />
     <ClInclude Include="..\..\src\renderlibvulkan\QueueVulkan.h" />

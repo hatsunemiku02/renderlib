@@ -5,6 +5,7 @@
 class DeviceVulkan;
 class RenderpassVulkan;
 class ShaderVulkan;
+class PipelineLayoutVulkan;
 struct VertexInputDescription;
 
 
@@ -25,6 +26,9 @@ public:
 	void SetVertexBind(const std::shared_ptr<VertexInputDescription>& bind);
 
 	void SetShaderBind(const ShaderVulkan& vs, const ShaderVulkan& ps);
+
+
+	void SetPipelineLayout(PipelineLayoutVulkan* pipelineLayout);
 
 	void CreateGraphicPipeline(const DeviceVulkan& device, const RenderpassVulkan& renderpass);
 
@@ -60,6 +64,8 @@ private:
 	std::vector<VkPipelineShaderStageCreateInfo> m_ShaderStages;
 	PipelineType m_Type;
 	VkDescriptorSetLayout m_DescriptorSetLayout;
+
+	PipelineLayoutVulkan* m_pPipelineLayout;
 	//FVulkanLayout* Layout
 };
 

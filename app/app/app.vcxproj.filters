@@ -153,6 +153,12 @@
     <ClCompile Include="..\..\src\renderlibvulkan\resource\GpuOnlyResVulkan.cpp">
       <Filter>src\renderlibvulkan\resoource</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\renderlibvulkan\DescriptorVulkan.cpp">
+      <Filter>src\renderlibvulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlibvulkan\PipelineLayoutVulkan.cpp">
+      <Filter>src\renderlibvulkan</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\resourcemgr\material.h">
@@ -271,6 +277,12 @@
     </ClInclude>
     <ClInclude Include="..\..\src\renderlibvulkan\resource\GpuOnlyResVulkan.h">
       <Filter>src\renderlibvulkan\resoource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlibvulkan\DescriptorVulkan.h">
+      <Filter>src\renderlibvulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlibvulkan\PipelineLayoutVulkan.h">
+      <Filter>src\renderlibvulkan</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
