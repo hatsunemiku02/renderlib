@@ -34,17 +34,6 @@ public:
 
 	VkShaderModule createShaderModule(const DeviceVulkan& device, const std::vector<char>& code);
 
-
-	VkDescriptorSetLayout GetDescSetLayout()
-	{
-		return m_DescriptorSetLayout;
-	}
-
-	VkPipelineLayout GetPipeLineLayout()
-	{
-		return m_PipelineLayout;
-	}
-
 			
 
 	VkPipeline GetPipeline() const
@@ -59,14 +48,11 @@ public:
 private:
 	DeviceVulkan* Device;
 	VkPipeline m_Pipeline;
-	VkPipelineLayout m_PipelineLayout;
 	std::shared_ptr<VertexInputDescription>  m_pVertexBind;
 	std::vector<VkPipelineShaderStageCreateInfo> m_ShaderStages;
 	PipelineType m_Type;
-	VkDescriptorSetLayout m_DescriptorSetLayout;
 
 	PipelineLayoutVulkan* m_pPipelineLayout;
-	//FVulkanLayout* Layout
 };
 
 

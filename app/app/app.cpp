@@ -131,7 +131,6 @@ private:
         auto vertShaderCode = readFile("D:/workspace/renderlib/res/shader/shader.vert.spv");
         auto fragShaderCode = readFile("D:/workspace/renderlib/res/shader/shader.frag.spv");
 
-
         piplineLayoutVulkan.CreatePipelineLayout(deviceVulkan);
 
         vsShaderVulkan.CreateShader(deviceVulkan, vertShaderCode);
@@ -151,11 +150,9 @@ private:
 
         commandpoolVulkan.CreateCommandPool(deviceVulkan);
         commandbufferVulkan.CreateCommandBuffer(deviceVulkan, commandpoolVulkan);
+
         createSyncObjects();
     }
-
-
-
 
     void createSurface() {
         if (glfwCreateWindowSurface(DynamicRHIVulkan::GetInstance().GetVkInstance(), window, nullptr, &surface) != VK_SUCCESS) {
@@ -178,43 +175,24 @@ private:
     }//9a
 
     void createSyncObjects() {
-        //VkSemaphoreCreateInfo semaphoreInfo{};
-        //semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
-        //VkFenceCreateInfo fenceInfo{};
-        //fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
-        //fenceInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;//create in signaled state so don't wait on first frame!
-        //if (
-        //    vkCreateSemaphore(deviceVulkan.GetDevice(), &semaphoreInfo, nullptr, &renderFinishedSemaphore) != VK_SUCCESS ||
-        //    vkCreateFence(deviceVulkan.GetDevice(), &fenceInfo, nullptr, &inFlightFence) != VK_SUCCESS) {
-        //    throw std::runtime_error("failed to create semaphores!");
-        //}
         renderFinishedSemaphore.CreateSemaphore(deviceVulkan, 0);
-
-
-    }//13
-    //END: initialization
+    }
 
     void drawFrame() {
-        //std::cout<<"Tick"<<std::endl;
 
         BufferTransfer::GetInstance().Excute(deviceVulkan,graphicQueue);
 
         graphicQueue.WaitSubmit(deviceVulkan);
 
         swapchainVulkan.acquireImageIdx(deviceVulkan);
-        //ready to record the command buffer
-        //vkResetCommandBuffer(commandbufferVulkan.GetCommandBuffer(), 0);
+
         commandbufferVulkan.ResetCommandBuffer();
-        //recordCommandBuffer(commandbufferVulkan.GetCommandBuffer(), swapchainVulkan.GetImgIdx());
+
         commandbufferVulkan.BeginCommand();
         commandbufferVulkan.BeginRenderPass(renderpassVulkan, swapchainVulkan);
         commandbufferVulkan.BindPipeline(piplineVulkan);
         commandbufferVulkan.BindVBO(vboVulkan, 0);
         commandbufferVulkan.BindDescSet(piplineLayoutVulkan, descriptorVulkan);
-
-        //vkCmdBindDescriptorSets(commandbufferVulkan.GetCommandBuffer(), VK_PIPELINE_BIND_POINT_GRAPHICS,
-        //    piplineVulkan.GetPipeLineLayout(), 0, 1, &descriptorSets[0],
-        //    0, nullptr);
 
         commandbufferVulkan.Draw(3, 1, 0, 0);
         commandbufferVulkan.EndRenderPass();
