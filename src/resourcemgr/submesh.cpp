@@ -2,7 +2,7 @@
 #include <vector>
 #include "submesh.h"
 #include "renderlib/vertexbuffer.h"
-
+/*
 float vertices[] = {
     -1.0f, -1.0f, 1.0f, // ×óÏÂ½Ç
      1.0f, -1.0f, 1.0f,  // ÓÒÏÂ½Ç
@@ -98,4 +98,4 @@ void SubMesh::BuildDefaultBox()
 
     m_pVertexBuffer->SetData(buffers, bufferssize, buffersstride, idexsquad, 6*sizeof(unsigned int));
     m_Length = 6;
-}
+}*/
