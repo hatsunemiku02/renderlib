@@ -132,6 +132,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\entity\entity.cpp" />
     <ClCompile Include="..\..\src\renderlevel\draw.cpp" />
+    <ClCompile Include="..\..\src\renderlevel\handle.cpp" />
     <ClCompile Include="..\..\src\renderlevel\id.cpp" />
     <ClCompile Include="..\..\src\renderlevel\material.cpp" />
     <ClCompile Include="..\..\src\renderlevel\param.cpp" />
@@ -172,6 +173,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\entity\entity.h" />
     <ClInclude Include="..\..\src\renderlevel\draw.h" />
+    <ClInclude Include="..\..\src\renderlevel\handle.h" />
     <ClInclude Include="..\..\src\renderlevel\id.h" />
     <ClInclude Include="..\..\src\renderlevel\material.h" />
     <ClInclude Include="..\..\src\renderlevel\param.h" />

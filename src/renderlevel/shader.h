@@ -1,7 +1,7 @@
 #pragma once
-#include "id.h"
+#include "handle.h"
 
-class Shader
+class Shader:public Handle
 {
 public:
 	Shader();

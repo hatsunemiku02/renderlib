@@ -1,12 +1,12 @@
 #pragma once
 #include <vector>
 #include <unordered_map>
-
+#include "handle.h"
 class Param;
 class Shader;
 
 
-class Material
+class Material:public Handle
 {
 public:
 
@@ -26,7 +26,9 @@ public:
 	{
 		m_ShaderMap[stage] = pShader;
 	}
+
 private:
 	std::vector<Param*> m_pParams;
 	std::unordered_map<ShaderStage, Shader*> m_ShaderMap;
+
 };

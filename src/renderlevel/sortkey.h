@@ -174,6 +174,8 @@ static_assert((0 // Compute key mask shouldn't overlap.
 
 typedef uint16_t ViewId;
 
+class Material;
+
 struct SortKey
 {
 	enum Enum
@@ -183,97 +185,37 @@ struct SortKey
 		SortSequence,
 	};
 
-	uint64_t encodeDraw(Enum _type)
-	{
-		switch (_type)
-		{
-		case SortProgram:
-		{
-			const uint64_t depth = (uint64_t(m_depth) << kSortKeyDraw0DepthShift) & kSortKeyDraw0DepthMask;
-			const uint64_t program = (uint64_t(m_program.idx) << kSortKeyDraw0ProgramShift) & kSortKeyDraw0ProgramMask;
-			const uint64_t blend = (uint64_t(m_blend) << kSortKeyDraw0BlendShift) & kSortKeyDraw0BlendMask;
-			const uint64_t view = (uint64_t(m_view) << kSortKeyViewBitShift) & kSortKeyViewMask;
-			const uint64_t key = view | kSortKeyDrawBit | kSortKeyDrawTypeProgram | blend | program | depth;
+	uint64_t EncodeDraw(Enum _type);
 
-			return key;
-		}
-		break;
-
-		case SortDepth:
-		{
-			const uint64_t depth = (uint64_t(m_depth) << kSortKeyDraw1DepthShift) & kSortKeyDraw1DepthMask;
-			const uint64_t program = (uint64_t(m_program.idx) << kSortKeyDraw1ProgramShift) & kSortKeyDraw1ProgramMask;
-			const uint64_t blend = (uint64_t(m_blend) << kSortKeyDraw1BlendShift) & kSortKeyDraw1BlendMask;
-			const uint64_t view = (uint64_t(m_view) << kSortKeyViewBitShift) & kSortKeyViewMask;
-			const uint64_t key = view | kSortKeyDrawBit | kSortKeyDrawTypeDepth | depth | blend | program;
-			return key;
-		}
-		break;
-
-		case SortSequence:
-		{
-			const uint64_t seq = (uint64_t(m_seq) << kSortKeyDraw2SeqShift) & kSortKeyDraw2SeqMask;
-			const uint64_t program = (uint64_t(m_program.idx) << kSortKeyDraw2ProgramShift) & kSortKeyDraw2ProgramMask;
-			const uint64_t blend = (uint64_t(m_blend) << kSortKeyDraw2BlendShift) & kSortKeyDraw2BlendMask;
-			const uint64_t view = (uint64_t(m_view) << kSortKeyViewBitShift) & kSortKeyViewMask;
-			const uint64_t key = view | kSortKeyDrawBit | kSortKeyDrawTypeSequence | seq | blend | program;
-
-			BX_ASSERT(seq == (uint64_t(m_seq) << kSortKeyDraw2SeqShift)
-				, "SortKey error, sequence is truncated (m_seq: %d)."
-				, m_seq
-			);
-
-			return key;
-		}
-		break;
-		}
-
-		BX_ASSERT(false, "You should not be here.");
-		return 0;
-	}
-
-	uint64_t encodeCompute()
-	{
-		const uint64_t program = (uint64_t(m_program.idx) << kSortKeyComputeProgramShift) & kSortKeyComputeProgramMask;
-		const uint64_t seq = (uint64_t(m_seq) << kSortKeyComputeSeqShift) & kSortKeyComputeSeqMask;
-		const uint64_t view = (uint64_t(m_view) << kSortKeyViewBitShift) & kSortKeyViewMask;
-		const uint64_t key = program | seq | view;
-
-		BX_ASSERT(seq == (uint64_t(m_seq) << kSortKeyComputeSeqShift)
-			, "SortKey error, sequence is truncated (m_seq: %d)."
-			, m_seq
-		);
-
-		return key;
-	}
+	uint64_t EncodeCompute();
 
 	/// Returns true if item is compute command.
 	bool decode(uint64_t _key, ViewId _viewRemap[BGFX_CONFIG_MAX_VIEWS])
 	{
-		m_view = _viewRemap[(_key & kSortKeyViewMask) >> kSortKeyViewBitShift];
-
-		if (_key & kSortKeyDrawBit)
-		{
-			uint64_t type = _key & kSortKeyDrawTypeMask;
-
-			if (type == kSortKeyDrawTypeDepth)
-			{
-				m_program.idx = uint16_t((_key & kSortKeyDraw1ProgramMask) >> kSortKeyDraw1ProgramShift);
-				return false;
-			}
-
-			if (type == kSortKeyDrawTypeSequence)
-			{
-				m_program.idx = uint16_t((_key & kSortKeyDraw2ProgramMask) >> kSortKeyDraw2ProgramShift);
-				return false;
-			}
-
-			m_program.idx = uint16_t((_key & kSortKeyDraw0ProgramMask) >> kSortKeyDraw0ProgramShift);
-			return false; // draw
-		}
-
-		m_program.idx = uint16_t((_key & kSortKeyComputeProgramMask) >> kSortKeyComputeProgramShift);
-		return true; // compute
+		//m_view = _viewRemap[(_key & kSortKeyViewMask) >> kSortKeyViewBitShift];
+		//
+		//if (_key & kSortKeyDrawBit)
+		//{
+		//	uint64_t type = _key & kSortKeyDrawTypeMask;
+		//
+		//	if (type == kSortKeyDrawTypeDepth)
+		//	{
+		//		m_program.idx = uint16_t((_key & kSortKeyDraw1ProgramMask) >> kSortKeyDraw1ProgramShift);
+		//		return false;
+		//	}
+		//
+		//	if (type == kSortKeyDrawTypeSequence)
+		//	{
+		//		m_program.idx = uint16_t((_key & kSortKeyDraw2ProgramMask) >> kSortKeyDraw2ProgramShift);
+		//		return false;
+		//	}
+		//
+		//	m_program.idx = uint16_t((_key & kSortKeyDraw0ProgramMask) >> kSortKeyDraw0ProgramShift);
+		//	return false; // draw
+		//}
+		//
+		//m_program.idx = uint16_t((_key & kSortKeyComputeProgramMask) >> kSortKeyComputeProgramShift);
+		//return true; // compute
 	}
 
 	static ViewId decodeView(uint64_t _key)
@@ -293,14 +235,14 @@ struct SortKey
 	{
 		m_depth = 0;
 		m_seq = 0;
-		m_program = { 0 };
+		m_pMat = nullptr;
 		m_view = 0;
 		m_blend = 0;
 	}
 
 	uint32_t      m_depth;
 	uint32_t      m_seq;
-	ProgramHandle m_program;
+	Material*     m_pMat;
 	ViewId        m_view;
 	uint8_t       m_blend;
 };

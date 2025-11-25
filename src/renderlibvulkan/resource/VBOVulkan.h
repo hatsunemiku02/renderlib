@@ -4,11 +4,13 @@
 #include <vector>
 #include <memory>
 #include "GpuOnlyResVulkan.h"
+#include "renderlevel/handle.h"
 
 class DeviceVulkan;
 
-struct VertexInputDescription {
-
+class VertexInputDescription :public Handle{
+public:
+	VertexInputDescription()
 	std::vector<VkVertexInputBindingDescription> bindings;
 	std::vector<VkVertexInputAttributeDescription> attributes;
 

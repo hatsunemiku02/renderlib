@@ -1,10 +1,12 @@
 #include "material.h"
 
 
-Material::Material()
+Material::Material():Handle(Id::Material)
 {
+	
 }
 
 Material::~Material()
 {
+	
 }

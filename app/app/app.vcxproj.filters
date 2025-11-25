@@ -147,6 +147,9 @@
     <ClCompile Include="..\..\src\renderlevel\id.cpp">
       <Filter>src\renderlevel</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\renderlevel\handle.cpp">
+      <Filter>src\renderlevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\resourcemgr\material.h">
@@ -261,6 +264,9 @@
       <Filter>src\renderlevel</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\renderlevel\id.h">
+      <Filter>src\renderlevel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlevel\handle.h">
       <Filter>src\renderlevel</Filter>
     </ClInclude>
   </ItemGroup>
