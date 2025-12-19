@@ -87,3 +87,5 @@ void VBOVulkan::SetVBODesc(const std::shared_ptr<VertexInputDescription>& desc)
 {
 	m_pVertexDesc = desc;
 }
+
+

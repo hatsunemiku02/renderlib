@@ -1,11 +1,11 @@
 #pragma once
 #include "handle.h"
 
-class Param:public Handle
+class ShaderParam:public Handle
 {
 public:
-	Param();
-	~Param();
+	ShaderParam();
+	~ShaderParam();
 
 
 private:

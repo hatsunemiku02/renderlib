@@ -14,6 +14,7 @@ public:
 		Material,
 		Shader,
 		Param,
+		Layout,
 		Count
 	};
 	IdType m_Type;

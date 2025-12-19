@@ -28,14 +28,14 @@
     <Filter Include="src\renderlibvulkan\resoource">
       <UniqueIdentifier>{04d0839d-bdbf-49bd-bdfd-a0f54e5fd713}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\renderlib">
+      <UniqueIdentifier>{33155b59-1fb0-43b2-ac1c-f0ef6a8250b1}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\renderlevel">
-      <UniqueIdentifier>{32c3805d-d303-4f53-a77c-08514d8a8f52}</UniqueIdentifier>
+      <UniqueIdentifier>{8e7f8ccc-b6be-4e8f-9f5e-c4d9729df245}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="app.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\third\glad\src\glad.c">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -123,31 +123,49 @@
     <ClCompile Include="..\..\src\renderlibvulkan\PipelineCacheManager.cpp">
       <Filter>src\renderlibvulkan</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\renderlevel\draw.cpp">
-      <Filter>src\renderlevel</Filter>
+    <ClCompile Include="..\..\src\renderlib\computeshader.cpp">
+      <Filter>src\renderlib</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\renderlevel\pass.cpp">
-      <Filter>src\renderlevel</Filter>
+    <ClCompile Include="..\..\src\renderlib\drawcall.cpp">
+      <Filter>src\renderlib</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\renderlevel\rendertarget.cpp">
-      <Filter>src\renderlevel</Filter>
+    <ClCompile Include="..\..\src\renderlib\pass.cpp">
+      <Filter>src\renderlib</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\renderlevel\material.cpp">
-      <Filter>src\renderlevel</Filter>
+    <ClCompile Include="..\..\src\renderlib\renderapi.cpp">
+      <Filter>src\renderlib</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\renderlevel\param.cpp">
-      <Filter>src\renderlevel</Filter>
+    <ClCompile Include="..\..\src\renderlib\renderobj.cpp">
+      <Filter>src\renderlib</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\renderlevel\shader.cpp">
-      <Filter>src\renderlevel</Filter>
+    <ClCompile Include="..\..\src\renderlib\rendertarget.cpp">
+      <Filter>src\renderlib</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\renderlevel\sortkey.cpp">
+    <ClCompile Include="..\..\src\renderlib\shader.cpp">
+      <Filter>src\renderlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlib\shaderparam.cpp">
+      <Filter>src\renderlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlib\sortid.cpp">
+      <Filter>src\renderlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlib\texture.cpp">
+      <Filter>src\renderlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlib\vertexbuffer.cpp">
+      <Filter>src\renderlib</Filter>
+    </ClCompile>
+    <ClCompile Include="appgl.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderlevel\handle.cpp">
       <Filter>src\renderlevel</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\renderlevel\id.cpp">
       <Filter>src\renderlevel</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\renderlevel\handle.cpp">
+    <ClCompile Include="..\..\src\renderlevel\sortkey.cpp">
       <Filter>src\renderlevel</Filter>
     </ClCompile>
   </ItemGroup>
@@ -239,34 +257,49 @@
     <ClInclude Include="..\..\src\renderlibvulkan\PipelineCacheManager.h">
       <Filter>src\renderlibvulkan</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\renderlevel\draw.h">
+    <ClInclude Include="..\..\src\renderlib\computeshader.h">
+      <Filter>src\renderlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlib\drawcall.h">
+      <Filter>src\renderlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlib\pass.h">
+      <Filter>src\renderlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlib\renderapi.h">
+      <Filter>src\renderlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlib\renderobj.h">
+      <Filter>src\renderlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlib\rendertarget.h">
+      <Filter>src\renderlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlib\shader.h">
+      <Filter>src\renderlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlib\shaderparam.h">
+      <Filter>src\renderlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlib\sortid.h">
+      <Filter>src\renderlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlib\texture.h">
+      <Filter>src\renderlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlib\vertexbuffer.h">
+      <Filter>src\renderlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderlevel\handle.h">
       <Filter>src\renderlevel</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\renderlevel\pass.h">
-      <Filter>src\renderlevel</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\renderlevel\rendertarget.h">
-      <Filter>src\renderlevel</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\renderlevel\material.h">
-      <Filter>src\renderlevel</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\renderlevel\param.h">
-      <Filter>src\renderlevel</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\renderlevel\shader.h">
+    <ClInclude Include="..\..\src\renderlevel\id.h">
       <Filter>src\renderlevel</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\renderlevel\sortkey.h">
       <Filter>src\renderlevel</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\renderlevel\uint32_t.h">
-      <Filter>src\renderlevel</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\renderlevel\id.h">
-      <Filter>src\renderlevel</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\renderlevel\handle.h">
       <Filter>src\renderlevel</Filter>
     </ClInclude>
   </ItemGroup>

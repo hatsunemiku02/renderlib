@@ -8,6 +8,7 @@
 
 void RenderApi::SetParam(const std::shared_ptr<Param>& pParam)
 {
+	glBindBufferBase(GL_UNIFORM_BUFFER, 0, pParam->GetGLUbo());
 }
 
 void RenderApi::SetShader(const std::shared_ptr<Shader>& pShader)

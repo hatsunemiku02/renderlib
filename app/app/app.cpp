@@ -262,6 +262,10 @@ private:
     }//15
 };
 
+class OpenglApp {
+
+};
+
 int main() {
     HelloTriangleApplication app;
 

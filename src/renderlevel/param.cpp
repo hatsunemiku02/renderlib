@@ -1,12 +1,12 @@
 #include "param.h"
 
-Param::Param()
+ShaderParam::ShaderParam()
 	:Handle(Id::Param)
 {
 	
 }
 
-Param::~Param()
+ShaderParam::~ShaderParam()
 {
 	
 }

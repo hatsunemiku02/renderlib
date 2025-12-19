@@ -2,7 +2,7 @@
 #include <vector>
 #include "submesh.h"
 #include "renderlib/vertexbuffer.h"
-/*
+
 float vertices[] = {
     -1.0f, -1.0f, 1.0f, // вСоб╫г
      1.0f, -1.0f, 1.0f,  // сроб╫г
@@ -66,36 +66,38 @@ unsigned int idexsquad[] = {
     0,2,3,
 };
 
+//namespace opengl
+//{
+	SubMesh::SubMesh()
+		:m_Start(0)
+		, m_Length(0)
+		, m_pVertexBuffer()
+	{
+	}
 
 
-SubMesh::SubMesh()
-	:m_Start(0)
-	,m_Length(0)
-	,m_pVertexBuffer()
-{
-}
+	SubMesh::SubMesh(const std::shared_ptr<VertexBuffer>& pVertexBuffer)
+		:m_Start(0)
+		, m_Length(0)
+		, m_pVertexBuffer(pVertexBuffer)
+	{
+	}
+
+	SubMesh::~SubMesh()
+	{
+	}
 
 
-SubMesh::SubMesh(const std::shared_ptr<VertexBuffer>& pVertexBuffer)
-	:m_Start(0)
-	, m_Length(0)
-	, m_pVertexBuffer(pVertexBuffer)
-{
-}
+	void SubMesh::BuildDefaultBox()
+	{
+		m_pVertexBuffer = std::make_shared<VertexBuffer>();
 
-SubMesh::~SubMesh()
-{
-}
+		std::vector<void*> buffers = { verticesquad ,uvsquad };
+		std::vector<unsigned int> bufferssize = { 4 * 3 * sizeof(float) ,4 * 2 * sizeof(float) };
+		std::vector<unsigned int> buffersstride = { 3 * sizeof(float) ,2 * sizeof(float) };
 
+		m_pVertexBuffer->SetData(buffers, bufferssize, buffersstride, idexsquad, 6 * sizeof(unsigned int));
+		m_Length = 6;
+	}
+//}
 
-void SubMesh::BuildDefaultBox()
-{
-    m_pVertexBuffer = std::make_shared<VertexBuffer>();
-
-    std::vector<void*> buffers = { verticesquad ,uvsquad };
-    std::vector<unsigned int> bufferssize = { 4*3 * sizeof(float) ,4*2 * sizeof(float) };
-    std::vector<unsigned int> buffersstride = { 3 * sizeof(float) ,2 * sizeof(float) };
-
-    m_pVertexBuffer->SetData(buffers, bufferssize, buffersstride, idexsquad, 6*sizeof(unsigned int));
-    m_Length = 6;
-}*/

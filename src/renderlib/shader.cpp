@@ -22,19 +22,24 @@
 //)";
 
 std::string DEFAULT_VS = R"(
-    #version 330 core
+    #version 450 core
     layout (location = 0) in vec3 aPos;
     layout (location = 1) in vec2 uv;
+
+    layout (std140, binding = 0) uniform block1 {
+        vec4 posoffset; // 一个vec4变量
+    };
+    
 
     out vec2 texcord;
     void main() {
         texcord = uv;
-        gl_Position = vec4(aPos.x,aPos.y,aPos.z,1.0);
+        gl_Position = vec4(aPos.x,aPos.y,aPos.z,1.0)+vec4(posoffset.xy,0,0);
     }
 )";
 
 std::string DEFAULT_PS = R"(
-    #version 330 core
+    #version 450 core
     in vec2 texcord;
     out vec4 FragColor;
 

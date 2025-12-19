@@ -10,7 +10,10 @@ class DeviceVulkan;
 
 class VertexInputDescription :public Handle{
 public:
-	VertexInputDescription()
+	VertexInputDescription():Handle(Id::IdType::Layout)
+	{
+
+	}
 	std::vector<VkVertexInputBindingDescription> bindings;
 	std::vector<VkVertexInputAttributeDescription> attributes;
 
