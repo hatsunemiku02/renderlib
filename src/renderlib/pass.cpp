@@ -7,7 +7,7 @@
 #include "renderlib/renderapi.h"
 #include<algorithm>
 
-
+#define OPTIM_APICALL 0
 
 Pass::Pass()
 {
@@ -29,6 +29,8 @@ void Pass::AddRenderObj(const std::shared_ptr<RenderObj>& pRenderObj)
 */
 void Pass::SortRenderObjVec2DrawCall()
 {
+
+#if OPTIM_APICALL ==1
 	std::sort(m_pRenderObjVector.begin(), m_pRenderObjVector.end(), 
 		[](const std::shared_ptr<RenderObj>& objA, const std::shared_ptr<RenderObj>& objB)->bool
 		{
@@ -42,6 +44,7 @@ void Pass::SortRenderObjVec2DrawCall()
 			}
 			return objA->GetParam()->GetSortID() < objB->GetParam()->GetSortID();
 		});
+#endif
 
 
 	std::shared_ptr<Shader> pCurShader = m_pRenderObjVector[0]->GetShader();
@@ -86,21 +89,27 @@ void Pass::ApplyOpenglAPI()
 	RenderApi& renderApi = RenderApi::GetInstance();
 	for (int i=0;i< m_pDrawCallVec.size();i++)
 	{
+#if OPTIM_APICALL ==1
 		if (!m_pDrawCallVec[i]->GetSameShader())
+#endif
 		{
 			renderApi.SetShader(m_pDrawCallVec[i]->GetShader());
 		}
+#if OPTIM_APICALL ==1
 		if (!m_pDrawCallVec[i]->GetSameParam())
+#endif
 		{
 			renderApi.SetParam(m_pDrawCallVec[i]->GetParam());
 		}
-
+#if OPTIM_APICALL ==1
 		if (!m_pDrawCallVec[i]->GetSameMesh())
+#endif
 		{
 			renderApi.SetMesh(m_pDrawCallVec[i]->GetSubMesh());
 		}
-
+#if OPTIM_APICALL ==1
 		if (!m_pDrawCallVec[i]->GetSameSubMesh())
+#endif
 		{
 			renderApi.SetSubMesh(m_pDrawCallVec[i]->GetSubMesh());
 		}

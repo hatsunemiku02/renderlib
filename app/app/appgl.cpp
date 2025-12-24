@@ -131,8 +131,9 @@ int main()
 		filluniformdata(-0.3 + 0.1*i, -0.1+0.1*i, offset);
         param->CreateUniformBuffer(&offset[0], sizeof(float) * 4);
         paramlist.push_back(param);
-
     }
+
+	
 
     std::shared_ptr<Pass> pass = std::make_shared<Pass>();
     for (int i = 0; i < 4; i++)
@@ -140,6 +141,11 @@ int main()
         std::shared_ptr<RenderObj> renderobj = std::make_shared<RenderObj>(submesh, shader, paramlist[i]);
         pass->AddRenderObj(renderobj);
     }
+	for (int i = 0; i < 4; i++)
+	{
+		std::shared_ptr<RenderObj> renderobj = std::make_shared<RenderObj>(submesh, shader, paramlist[i]);
+		pass->AddRenderObj(renderobj);
+	}
 
     pass->SortRenderObjVec2DrawCall();
 

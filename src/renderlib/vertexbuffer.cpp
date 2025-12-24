@@ -50,12 +50,15 @@ void VertexBuffer::SetData(std::vector<void*>& buffers,std::vector<unsigned int>
 
 
 	glBindVertexBuffers(0, vbosize, m_Vbos.data(), offsets.data(), (GLsizei*)bufferstride.data());
-	
+	error = glGetError();
 	for (int i = 0; i < vbosize; i++)
 	{
-		glVertexAttribFormat(i, bufferstride[i], GL_FLOAT, GL_FALSE, 0); // Î»ÖÃ
+		glVertexAttribFormat(i, bufferstride[i]/sizeof(float), GL_FLOAT, GL_FALSE, 0); // Î»ÖÃ
+		error = glGetError();
 		glVertexAttribBinding(i, 0);
+		error = glGetError();
 		glEnableVertexAttribArray(i);
+		error = glGetError();
 	}
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_Ibo);
